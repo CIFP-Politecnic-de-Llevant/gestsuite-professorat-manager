@@ -2,6 +2,7 @@ package cat.iesmanacor.webiesmanacor.restclient;
 
 import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
 import cat.iesmanacor.webiesmanacor.dto.DepartamentDto;
+import cat.iesmanacor.webiesmanacor.dto.SessioDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,4 +30,8 @@ public interface CoreRestClient {
     @GetMapping("/departament/getByCodiGestib/{id}")
     ResponseEntity<DepartamentDto> getDepartamentByCodiGestib(@PathVariable("id") String identificador);
 
+
+    //Sessió
+    @GetMapping("/sessio/pares")
+    ResponseEntity<List<SessioDto>> getSessionsAtencioPares();
 }

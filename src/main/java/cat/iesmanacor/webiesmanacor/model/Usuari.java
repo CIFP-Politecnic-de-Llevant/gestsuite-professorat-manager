@@ -33,4 +33,7 @@ public @Data class Usuari {
 
     @Column(name = "departament_iddepartament", nullable = true)
     private Long departament;
+
+    @Column(name = "horari_atencio_pares", nullable = true, length = 2048)
+    private String horariAtencioPares;
 }

@@ -11,4 +11,5 @@ public @Data class UsuariDto {
     //Microservei CORE
     private CoreUsuariDto professor;
     private DepartamentDto departament;
+    private String horariAtencioPares;
 }

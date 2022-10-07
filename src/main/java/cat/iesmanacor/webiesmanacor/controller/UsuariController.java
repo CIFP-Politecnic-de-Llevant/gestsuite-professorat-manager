@@ -4,6 +4,7 @@ import cat.iesmanacor.common.model.Notificacio;
 import cat.iesmanacor.common.model.NotificacioTipus;
 import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
 import cat.iesmanacor.webiesmanacor.dto.DepartamentDto;
+import cat.iesmanacor.webiesmanacor.dto.SessioDto;
 import cat.iesmanacor.webiesmanacor.dto.UsuariDto;
 import cat.iesmanacor.webiesmanacor.restclient.CoreRestClient;
 import cat.iesmanacor.webiesmanacor.service.UsuariService;
@@ -33,6 +34,9 @@ public class UsuariController {
 
     @GetMapping("/usuari/llistat")
     public ResponseEntity<List<UsuariDto>> getUsuaris() throws Exception {
+        ResponseEntity<List<SessioDto>> sessionsAtencioParesResponse = coreRestClient.getSessionsAtencioPares();
+        List<SessioDto> sessionsAtencioPares = sessionsAtencioParesResponse.getBody();
+
         ResponseEntity<List<CoreUsuariDto>> usuarisResponse = coreRestClient.getUsuarisActius();
         List<CoreUsuariDto> usuaris = usuarisResponse.getBody();
 
@@ -51,6 +55,20 @@ public class UsuariController {
 
                 if (professor != null) {
                     usuari.setProfessor(professor);
+
+                    //Sessions atenció pares
+                    if(sessionsAtencioPares!=null) {
+                        System.out.println("entra sessio atencio pares");
+                        //List<SessioDto> sessionsProfessor = sessionsAtencioPares.stream().filter(s -> s.getGestibProfessor().equals(professor.getGestibCodi())).collect(Collectors.toList());
+                        List<String> sessionsProfessorStr = new ArrayList<>();
+                        for (SessioDto sessioDto : sessionsAtencioPares) {
+                            System.out.println("entra bucle atencio pares");
+                            String sessioStr = sessioDto.getGestibHora()+"-"+ sessioDto.getGestibProfessor();
+                            System.out.printf("seesss"+sessioStr);
+                            sessionsProfessorStr.add(sessioStr);
+                        }
+                        usuari.setHorariAtencioPares(String.join(", ", sessionsProfessorStr));
+                    }
                 }
 
                 if (usuariCore.getGestibDepartament() != null && !usuariCore.getGestibDepartament().isEmpty()) {
@@ -61,6 +79,8 @@ public class UsuariController {
                         usuari.setDepartament(departament);
                     }
                 }
+
+
 
 
                 usuariService.save(usuari);

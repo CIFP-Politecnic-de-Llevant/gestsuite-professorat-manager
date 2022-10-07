@@ -1,4 +1,4 @@
-package cat.iesmanacor.webiesmanacordepartaments.dto;
+package cat.iesmanacor.webiesmanacor.dto;
 
 import lombok.Data;
 

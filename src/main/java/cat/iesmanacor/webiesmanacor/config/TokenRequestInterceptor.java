@@ -1,4 +1,4 @@
-package cat.iesmanacor.webiesmanacordepartaments.config;
+package cat.iesmanacor.webiesmanacor.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

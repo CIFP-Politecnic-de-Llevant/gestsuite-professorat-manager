@@ -1,9 +1,7 @@
-package cat.iesmanacor.webiesmanacordepartaments.dto;
+package cat.iesmanacor.webiesmanacor.dto;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 //@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

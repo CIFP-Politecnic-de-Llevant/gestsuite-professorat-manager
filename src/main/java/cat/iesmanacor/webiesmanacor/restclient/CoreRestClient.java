@@ -1,8 +1,7 @@
-package cat.iesmanacor.webiesmanacordepartaments.restclient;
+package cat.iesmanacor.webiesmanacor.restclient;
 
-import cat.iesmanacor.webiesmanacordepartaments.dto.CoreUsuariDto;
-import cat.iesmanacor.webiesmanacordepartaments.dto.DepartamentDto;
-import cat.iesmanacor.webiesmanacordepartaments.dto.UsuariDto;
+import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
+import cat.iesmanacor.webiesmanacor.dto.DepartamentDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

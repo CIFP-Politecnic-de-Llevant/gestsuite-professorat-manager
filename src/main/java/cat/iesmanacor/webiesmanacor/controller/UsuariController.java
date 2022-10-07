@@ -1,18 +1,16 @@
-package cat.iesmanacor.webiesmanacordepartaments.controller;
+package cat.iesmanacor.webiesmanacor.controller;
 
 import cat.iesmanacor.common.model.Notificacio;
 import cat.iesmanacor.common.model.NotificacioTipus;
-import cat.iesmanacor.webiesmanacordepartaments.dto.CoreUsuariDto;
-import cat.iesmanacor.webiesmanacordepartaments.dto.DepartamentDto;
-import cat.iesmanacor.webiesmanacordepartaments.dto.UsuariDto;
-import cat.iesmanacor.webiesmanacordepartaments.model.Usuari;
-import cat.iesmanacor.webiesmanacordepartaments.restclient.CoreRestClient;
-import cat.iesmanacor.webiesmanacordepartaments.service.UsuariService;
+import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
+import cat.iesmanacor.webiesmanacor.dto.DepartamentDto;
+import cat.iesmanacor.webiesmanacor.dto.UsuariDto;
+import cat.iesmanacor.webiesmanacor.restclient.CoreRestClient;
+import cat.iesmanacor.webiesmanacor.service.UsuariService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,22 +1,18 @@
-package cat.iesmanacor.webiesmanacordepartaments.service;
+package cat.iesmanacor.webiesmanacor.service;
 
-import cat.iesmanacor.webiesmanacordepartaments.WebIesmanacorDepartamentsApplication;
-import cat.iesmanacor.webiesmanacordepartaments.dto.CoreUsuariDto;
-import cat.iesmanacor.webiesmanacordepartaments.dto.DepartamentDto;
-import cat.iesmanacor.webiesmanacordepartaments.dto.UsuariDto;
-import cat.iesmanacor.webiesmanacordepartaments.model.Usuari;
-import cat.iesmanacor.webiesmanacordepartaments.repository.UsuariRepository;
-import cat.iesmanacor.webiesmanacordepartaments.restclient.CoreRestClient;
+import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
+import cat.iesmanacor.webiesmanacor.dto.DepartamentDto;
+import cat.iesmanacor.webiesmanacor.dto.UsuariDto;
+import cat.iesmanacor.webiesmanacor.model.Usuari;
+import cat.iesmanacor.webiesmanacor.repository.UsuariRepository;
+import cat.iesmanacor.webiesmanacor.restclient.CoreRestClient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

@@ -1,6 +1,6 @@
-package cat.iesmanacor.webiesmanacordepartaments.repository;
+package cat.iesmanacor.webiesmanacor.repository;
 
-import cat.iesmanacor.webiesmanacordepartaments.model.Usuari;
+import cat.iesmanacor.webiesmanacor.model.Usuari;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

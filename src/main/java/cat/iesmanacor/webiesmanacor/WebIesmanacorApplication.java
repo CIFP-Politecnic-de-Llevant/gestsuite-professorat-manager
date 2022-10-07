@@ -1,4 +1,4 @@
-package cat.iesmanacor.webiesmanacordepartaments;
+package cat.iesmanacor.webiesmanacor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,10 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableEurekaClient
 @EnableFeignClients
 @SpringBootApplication
-public class WebIesmanacorDepartamentsApplication {
+public class WebIesmanacorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebIesmanacorDepartamentsApplication.class, args);
+		SpringApplication.run(WebIesmanacorApplication.class, args);
 	}
 
 }

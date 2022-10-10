@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,13 +60,31 @@ public class UsuariController {
 
                     //Sessions atenció pares
                     if(sessionsAtencioPares!=null) {
-                        System.out.println("entra sessio atencio pares");
-                        //List<SessioDto> sessionsProfessor = sessionsAtencioPares.stream().filter(s -> s.getGestibProfessor().equals(professor.getGestibCodi())).collect(Collectors.toList());
+                        List<SessioDto> sessionsProfessor = sessionsAtencioPares.stream().filter(s -> s.getGestibProfessor().equals(professor.getGestibCodi())).collect(Collectors.toList());
                         List<String> sessionsProfessorStr = new ArrayList<>();
-                        for (SessioDto sessioDto : sessionsAtencioPares) {
-                            System.out.println("entra bucle atencio pares");
-                            String sessioStr = sessioDto.getGestibHora()+"-"+ sessioDto.getGestibProfessor();
-                            System.out.printf("seesss"+sessioStr);
+                        for (SessioDto sessioDto : sessionsProfessor) {
+                            LocalTime horaIniSessioPares = LocalTime.parse(sessioDto.getGestibHora());
+                            LocalTime horaFiSessioPares = horaIniSessioPares.plusMinutes(Long.parseLong(sessioDto.getGestibDurada()));
+
+                            String dia = "";
+                            if(sessioDto.getGestibDia().equals("1")){
+                                dia = "Dilluns";
+                            } else if(sessioDto.getGestibDia().equals("2")){
+                                dia = "Dimarts";
+                            } else if(sessioDto.getGestibDia().equals("3")){
+                                dia = "Dimecres";
+                            } else if(sessioDto.getGestibDia().equals("4")){
+                                dia = "Dijous";
+                            } else if(sessioDto.getGestibDia().equals("5")){
+                                dia = "Divendres";
+                            } else if(sessioDto.getGestibDia().equals("6")){
+                                dia = "Dissabte";
+                            } else if(sessioDto.getGestibDia().equals("7")){
+                                dia = "Diumenge";
+                            }
+
+                            String sessioStr = dia + " de " + horaIniSessioPares.format(DateTimeFormatter.ofPattern("HH:mm")) + " a "+horaFiSessioPares.format(DateTimeFormatter.ofPattern("HH:mm"));
+
                             sessionsProfessorStr.add(sessioStr);
                         }
                         usuari.setHorariAtencioPares(String.join(", ", sessionsProfessorStr));

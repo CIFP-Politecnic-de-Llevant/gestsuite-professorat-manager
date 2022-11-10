@@ -140,6 +140,11 @@ public class UsuariController {
             foto = jsonObject.get("foto").getAsString();
         }
 
+        UsuariDto substitut = null;
+        if (jsonObject.get("substitut") != null && !jsonObject.get("substitut").isJsonNull()) {
+            substitut = usuariService.findById(jsonObject.get("substitut").getAsJsonObject().get("id").getAsLong());
+        }
+
         UsuariDto usuariOld = usuariService.findById(idUsuari);
 
         UsuariDto usuari = new UsuariDto();
@@ -148,6 +153,7 @@ public class UsuariController {
         usuari.setCarrec2(carrec2);
         usuari.setCarrec3(carrec3);
         usuari.setFoto(foto);
+        usuari.setSubstitut(substitut);
 
         //Deixem el professor i el departament
         usuari.setProfessor(usuariOld.getProfessor());

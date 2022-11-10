@@ -8,6 +8,7 @@ public @Data class UsuariDto {
     private String carrec1;
     private String carrec2;
     private String carrec3;
+    private UsuariDto substitut;
     //Microservei CORE
     private CoreUsuariDto professor;
     private DepartamentDto departament;

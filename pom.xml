@@ -9,13 +9,14 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cat.iesmanacor</groupId>
-	<artifactId>web-iesmanacor-departaments</artifactId>
+	<artifactId>web-iesmanacor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>web-iesmanacor-departaments</name>
-	<description>web-iesmanacor-departaments</description>
+	<name>web-iesmanacor</name>
+	<description>web-iesmanacor</description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2021.0.4</spring-cloud.version>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -110,6 +111,11 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

@@ -29,11 +29,16 @@ public class UsuariService {
         return usuariRepository.findAll().stream().map(c->modelMapper.map(c,UsuariDto.class)).collect(Collectors.toList());
     }
 
-    public UsuariDto findByCoreIdUsuari(Long coreIdUsuari) {
+    public UsuariDto findByCoreIdUsuari(Long coreIdUsuari) throws Exception {
         ModelMapper modelMapper = new ModelMapper();
         Usuari usuari = usuariRepository.findUsuariByProfessor(coreIdUsuari);
         if(usuari!=null) {
-            return modelMapper.map(usuari, UsuariDto.class);
+            UsuariDto usuariDto = modelMapper.map(usuari, UsuariDto.class);
+            ResponseEntity<CoreUsuariDto> coreUsuariDtoResponseEntity = coreRestClient.getPublicProfile(coreIdUsuari.toString());
+            CoreUsuariDto coreUsuariDto = coreUsuariDtoResponseEntity.getBody();
+            usuariDto.setProfessor(coreUsuariDto);
+
+            return usuariDto;
         } else{
             return null;
         }

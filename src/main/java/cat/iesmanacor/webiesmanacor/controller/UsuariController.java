@@ -205,7 +205,7 @@ public class UsuariController {
                         script += "</div>";
                     }
                     script += "<div class=\"jet-team-member__content\">";
-                    script += "<h3 class=\"jet-team-member__name\"><span class=\"jet-team-member__name-first\">Amengual Gaya,</span><span class=\"jet-team-member__name-last\"> Miquel</span></h3>";
+                    script += "<h3 class=\"jet-team-member__name\"><span class=\"jet-team-member__name-first\">"+usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2()+",</span><span class=\"jet-team-member__name-last\"> "+usuari.getProfessor().getGestibNom()+"</span></h3>";
                     script += "<div class=\"jet-team-member__position\">";
                     if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
                         script += usuari.getCarrec1();
@@ -217,7 +217,7 @@ public class UsuariController {
                         script += "<br>" + usuari.getCarrec3();
                     }
                     script += "</div>";
-                    script += "<p class=\"jet-team-member__desc\">Dijous 19:10</p>";
+                    script += "<p class=\"jet-team-member__desc\">"+usuari.getHorariAtencioPares()+"</p>";
 
                     if (usuari.getProfessor() != null && usuari.getProfessor().getGsuiteEmail() != null) {
                         script += "<div class=\"jet-team-member__socials\">";
@@ -243,7 +243,11 @@ public class UsuariController {
                 }
             }
         }
-        return script;
+
+        String result = "const result = document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\");";
+        result += " if(result){ result.innerHTML = `" + script + "`; }";
+
+        return result;
     }
 
 

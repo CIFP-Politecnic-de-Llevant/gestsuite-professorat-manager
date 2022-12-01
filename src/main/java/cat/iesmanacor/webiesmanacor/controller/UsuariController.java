@@ -174,6 +174,101 @@ public class UsuariController {
         int idx = 0;
         String script = "";
 
+        script += "<style>";
+
+        script += ".professors{";
+        script += "    display: flex; !important;";
+        script += "    flex-wrap: wrap;";
+        script += "    justify-content: center;";
+        script += "    gap: 20px;";
+        script += "}";
+
+        script += ".professor{";
+        script += "     background: #E7E7E7;";
+        script += "     padding: 10px;";
+        script += "     width: 255px;";
+        script += "}";
+
+        script += ".professor .foto{";
+        script += "     width: 235px;";
+        script += "     height: 235px;";
+        script += "}";
+
+        script += ".professor .foto img{";
+        script += "     object-fit: cover;";
+        script += "}";
+
+        script += ".professor h3{";
+        script += "     font-family: \"Roboto\", Sans-serif;";
+        script += "     font-size: 0.9em;";
+        script += "     font-weight: 400;";
+        script += "     text-align: center;";
+        script += "}";
+
+        script += "</style>";
+
+        script += "<div class=\"professors elementor-container elementor-column-gap-default\">";
+        if (usuaris != null && usuaris.size() > 0) {
+            for (CoreUsuariDto usuariCore : usuaris) {
+                UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
+                if (usuari != null) {
+                    script += "<div class=\"professor\">";
+
+                    //Foto
+                    if (usuari.getFoto() != null) {
+                        script += "<div class=\"foto\">";
+                        script += "<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
+                        script += "</div>";
+                    }
+
+                    //Nom i cognoms
+                    script += "<h3>"+usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2()+", "+usuari.getProfessor().getGestibNom()+"</h3>";
+
+                    //Càrrecs
+                    script += "<div class=\"carrecs\">";
+                    if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
+                        script += usuari.getCarrec1();
+                    }
+                    if (usuari.getCarrec2() != null && !usuari.getCarrec2().isEmpty()) {
+                        script += "<br>" + usuari.getCarrec2();
+                    }
+                    if (usuari.getCarrec3() != null && !usuari.getCarrec3().isEmpty()) {
+                        script += "<br>" + usuari.getCarrec3();
+                    }
+                    script += "</div>";
+
+                    //Horari tutoria
+                    script += "<p>"+usuari.getHorariAtencioPares()+"</p>";
+
+                    if (usuari.getProfessor() != null && usuari.getProfessor().getGsuiteEmail() != null) {
+                        script += "<a href=\"mailto:"+usuari.getProfessor().getGsuiteEmail()+"\">";
+                        script += "<span class=\"email\">" + usuari.getProfessor().getGsuiteEmail() + "</span>";
+                        script += "</a>";
+                    }
+
+
+                    script += "</div>"; //class professor
+                }
+            }
+        }
+        script += "</div>"; //professors
+
+        String result = " document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\").innerHTML=''; ";
+        result += " var resultScript = document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\"); ";
+        result += " if(resultScript){ resultScript.innerHTML = `" + script + "`; } ";
+
+        return result;
+    }
+
+
+    public String generarScriptOld(@PathVariable("id") Long identificador) throws Exception {
+
+        ResponseEntity<List<CoreUsuariDto>> usuarisResponse = coreRestClient.getUsuarisByDepartament(identificador);
+        List<CoreUsuariDto> usuaris = usuarisResponse.getBody();
+
+        int idx = 0;
+        String script = "";
+
         if (usuaris != null && usuaris.size() > 0) {
             for (CoreUsuariDto usuariCore : usuaris) {
                 UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
@@ -236,7 +331,7 @@ public class UsuariController {
 
                     script += "</div>"; //Contenidor 1
 
-                    if (idx % 4 == 0) {
+                    if (idx % 4 == 3) {
                         script += "</section>";
                     }
                     idx++;
@@ -244,11 +339,11 @@ public class UsuariController {
             }
         }
 
-        String result = "const result = document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\");";
-        result += " if(result){ result.innerHTML = `" + script + "`; }";
+        String result = " document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\").innerHTML=''; ";
+        result += " var result = document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\"); ";
+        result += " if(result){ result.innerHTML = `" + script + "`; } ";
 
         return result;
     }
-
 
 }

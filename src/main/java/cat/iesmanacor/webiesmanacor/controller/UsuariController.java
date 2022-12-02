@@ -177,8 +177,8 @@ public class UsuariController {
         script += "<style>";
 
         script += ".professors{";
-        script += "    display: flex; !important;";
-        script += "    flex-wrap: wrap;";
+        script += "    display: flex !important;";
+        script += "    flex-wrap: wrap !important;";
         script += "    justify-content: center;";
         script += "    gap: 20px;";
         script += "}";
@@ -203,7 +203,33 @@ public class UsuariController {
         script += "     font-size: 0.9em;";
         script += "     font-weight: 400;";
         script += "     text-align: center;";
+        script += "     margin: 10px 0;";
         script += "}";
+
+        script += ".professor .carrecs{";
+        script += "     color: #EE863A;";
+        script += "     font-family: \"Roboto\", Sans-serif;";
+        script += "     font-size: 14px;";
+        script += "     font-weight: 400;";
+        script += "     text-align: center;";
+        script += "}";
+
+        script += ".professor .horaritutoria{";
+        script += "     color: #54595f;";
+        script += "     font-family: \"Montserrat Alternates\", Sans-serif;";
+        script += "     font-size: 13px;";
+        script += "     font-weight: normal;";
+        script += "     text-align: center;";
+        script += "}";
+
+        script += ".professor .email{";
+        script += "     color: #54595F;";
+        script += "     font-family: \"Roboto\", Sans-serif;";
+        script += "     font-size: 13px;";
+        script += "     font-weight: 400;";
+        script += "     text-align: center;";
+        script += "}";
+
 
         script += "</style>";
 
@@ -238,12 +264,12 @@ public class UsuariController {
                     script += "</div>";
 
                     //Horari tutoria
-                    script += "<p>"+usuari.getHorariAtencioPares()+"</p>";
+                    script += "<p class=\"horaritutoria\">"+usuari.getHorariAtencioPares()+"</p>";
 
                     if (usuari.getProfessor() != null && usuari.getProfessor().getGsuiteEmail() != null) {
-                        script += "<a href=\"mailto:"+usuari.getProfessor().getGsuiteEmail()+"\">";
-                        script += "<span class=\"email\">" + usuari.getProfessor().getGsuiteEmail() + "</span>";
-                        script += "</a>";
+                        script += "<p class=\"email\"><a href=\"mailto:"+usuari.getProfessor().getGsuiteEmail()+"\">";
+                        script += usuari.getProfessor().getGsuiteEmail();
+                        script += "</a></p>";
                     }
 
 

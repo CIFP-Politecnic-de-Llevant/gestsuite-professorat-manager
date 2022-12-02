@@ -57,11 +57,13 @@ public class UsuariService {
                usuariDto.setProfessor(professor);
             }
 
-            ResponseEntity<DepartamentDto> departamentResponse = coreRestClient.getDepartamentByCodiGestib(usuari.getDepartament().toString());
-            DepartamentDto departament = departamentResponse.getBody();
+            if(usuari.getDepartament() != null) {
+                ResponseEntity<DepartamentDto> departamentResponse = coreRestClient.getDepartamentByCodiGestib(usuari.getDepartament().toString());
+                DepartamentDto departament = departamentResponse.getBody();
 
-            if (departament != null) {
-                usuariDto.setDepartament(departament);
+                if (departament != null) {
+                    usuariDto.setDepartament(departament);
+                }
             }
 
             return usuariDto;

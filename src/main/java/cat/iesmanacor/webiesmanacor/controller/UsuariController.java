@@ -270,7 +270,7 @@ public class UsuariController {
                     //Horari tutoria
                     script += "<p class=\"horaritutoria\">"+usuari.getHorariAtencioPares()+"</p>";
 
-                    if (usuari.getProfessor() != null && usuari.getProfessor().getGsuiteEmail() != null) {
+                    if (usuari.getProfessor().getGsuiteEmail() != null) {
                         script += "<p class=\"email\"><a href=\"mailto:"+usuari.getProfessor().getGsuiteEmail()+"\">";
                         script += usuari.getProfessor().getGsuiteEmail();
                         script += "</a></p>";

@@ -365,8 +365,8 @@ public class UsuariController {
             }
         }
 
-        String result = " document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\").innerHTML=''; ";
-        result += " var result = document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\"); ";
+        String result = " document.querySelector(\".elementor-element .elementor-widget .elementor-widget-text-editor\").innerHTML=''; ";
+        result += " var result = document.querySelector(\".elementor-element .elementor-widget .elementor-widget-text-editor\"); ";
         result += " if(result){ result.innerHTML = `" + script + "`; } ";
 
         return result;

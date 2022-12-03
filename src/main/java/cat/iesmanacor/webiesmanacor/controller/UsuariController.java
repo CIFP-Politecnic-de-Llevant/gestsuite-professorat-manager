@@ -83,7 +83,8 @@ public class UsuariController {
                                 dia = "Diumenge";
                             }
 
-                            String sessioStr = dia + " de " + horaIniSessioPares.format(DateTimeFormatter.ofPattern("HH:mm")) + " a " + horaFiSessioPares.format(DateTimeFormatter.ofPattern("HH:mm"));
+                            //String sessioStr = dia + " de " + horaIniSessioPares.format(DateTimeFormatter.ofPattern("HH:mm")) + " a " + horaFiSessioPares.format(DateTimeFormatter.ofPattern("HH:mm"));
+                            String sessioStr = dia + " " + horaIniSessioPares.format(DateTimeFormatter.ofPattern("HH:mm"));
 
                             sessionsProfessorStr.add(sessioStr);
                         }

@@ -187,6 +187,8 @@ public class UsuariController {
         script += "     background: #E7E7E7;";
         script += "     padding: 10px;";
         script += "     width: 255px;";
+        script += "     box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;";
+        script += "     border-radius: 5px;";
         script += "     display: flex;";
         script += "     flex-flow: column;";
         script += "     align-items: center;";

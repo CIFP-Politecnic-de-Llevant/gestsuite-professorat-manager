@@ -187,6 +187,10 @@ public class UsuariController {
         script += "     background: #E7E7E7;";
         script += "     padding: 10px;";
         script += "     width: 255px;";
+        script += "     display: flex;";
+        script += "     flex-flow: column;";
+        script += "     align-items: center;";
+        script += "     justify-content: space-between;";
         script += "}";
 
         script += ".professor .foto{";
@@ -279,97 +283,14 @@ public class UsuariController {
         }
         script += "</div>"; //professors
 
-        String result = " document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\").innerHTML=''; ";
-        result += " var resultScript = document.querySelector(\".elementor-widget-container .elementor-element .elementor-widget-text-editor\"); ";
+        String selector = "section .elementor-container .elementor-column .elementor-element.elementor-widget.elementor-widget-text-editor";
+
+        String result = " document.querySelector(\""+selector+"\").innerHTML=''; ";
+        result += " var resultScript = document.querySelector(\""+selector+"\"); ";
         result += " if(resultScript){ resultScript.innerHTML = `" + script + "`; } ";
 
         return result;
     }
 
-
-    public String generarScriptOld(@PathVariable("id") Long identificador) throws Exception {
-
-        ResponseEntity<List<CoreUsuariDto>> usuarisResponse = coreRestClient.getUsuarisByDepartament(identificador);
-        List<CoreUsuariDto> usuaris = usuarisResponse.getBody();
-
-        int idx = 0;
-        String script = "";
-
-        if (usuaris != null && usuaris.size() > 0) {
-            for (CoreUsuariDto usuariCore : usuaris) {
-                UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
-                if (usuari != null) {
-                    if (idx % 4 == 0) {
-                        //Secció de 4 professors
-                        script += "<section class=\"elementor-section elementor-inner-section elementor-element elementor-element-3c94881e elementor-section-boxed elementor-section-height-default jet-parallax-section\" data-id=\"3c94881e\" data-element_type=\"section\" data-settings=\"{&quot;jet_parallax_layout_list&quot;:[{&quot;jet_parallax_layout_image&quot;:{&quot;url&quot;:&quot;&quot;,&quot;id&quot;:&quot;&quot;},&quot;_id&quot;:&quot;621665c&quot;,&quot;jet_parallax_layout_image_tablet&quot;:{&quot;url&quot;:&quot;&quot;,&quot;id&quot;:&quot;&quot;},&quot;jet_parallax_layout_image_mobile&quot;:{&quot;url&quot;:&quot;&quot;,&quot;id&quot;:&quot;&quot;},&quot;jet_parallax_layout_speed&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:50,&quot;sizes&quot;:[]},&quot;jet_parallax_layout_type&quot;:&quot;scroll&quot;,&quot;jet_parallax_layout_direction&quot;:null,&quot;jet_parallax_layout_fx_direction&quot;:null,&quot;jet_parallax_layout_z_index&quot;:&quot;&quot;,&quot;jet_parallax_layout_bg_x&quot;:50,&quot;jet_parallax_layout_bg_x_tablet&quot;:&quot;&quot;,&quot;jet_parallax_layout_bg_x_mobile&quot;:&quot;&quot;,&quot;jet_parallax_layout_bg_y&quot;:50,&quot;jet_parallax_layout_bg_y_tablet&quot;:&quot;&quot;,&quot;jet_parallax_layout_bg_y_mobile&quot;:&quot;&quot;,&quot;jet_parallax_layout_bg_size&quot;:&quot;auto&quot;,&quot;jet_parallax_layout_bg_size_tablet&quot;:&quot;&quot;,&quot;jet_parallax_layout_bg_size_mobile&quot;:&quot;&quot;,&quot;jet_parallax_layout_animation_prop&quot;:&quot;transform&quot;,&quot;jet_parallax_layout_on&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}]}\">";
-
-                        script += "<div class=\"jet-parallax-section__layout elementor-repeater-item-621665c jet-parallax-section__scroll-layout is-mac\">" +
-                                "<div class=\"jet-parallax-section__image\" style=\"background-position: 50% 50%; background-image: url(&quot;&quot;); transform: translateY(119.4px);\">" +
-                                "</div>" +
-                                "</div>";
-                    }
-                    //Professor
-                    script += "<div class=\"elementor-container elementor-column-gap-default\">"; //Contenidor 1
-
-                    //4 professors
-                    script += "<div class=\"elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-7aa9b17\" data-id=\"7aa9b17\" data-element_type=\"column\">";
-                    script += "<div class=\"elementor-widget-wrap elementor-element-populated\">";
-                    script += "<div class=\"elementor-element elementor-element-22c8157 elementor-widget elementor-widget-jet-team-member\" data-id=\"22c8157\" data-element_type=\"widget\" data-widget_type=\"jet-team-member.default\">";
-                    script += "<div class=\"elementor-widget-container\">";
-                    script += "<div class=\"elementor-jet-team-member jet-elements\">";
-                    script += "<div class=\"jet-team-member\">";
-                    script += "<div class=\"jet-team-member__inner\">";
-                    script += "<div class=\"jet-team-member__image\">";
-                    if (usuari.getFoto() != null) {
-                        script += "<div class=\"jet-team-member__cover\"></div>";
-                        script += "<figure class=\"jet-team-member__figure\"><img class=\"jet-team-member__img-tag\" src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
-                        script += "</div>";
-                    }
-                    script += "<div class=\"jet-team-member__content\">";
-                    script += "<h3 class=\"jet-team-member__name\"><span class=\"jet-team-member__name-first\">"+usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2()+",</span><span class=\"jet-team-member__name-last\"> "+usuari.getProfessor().getGestibNom()+"</span></h3>";
-                    script += "<div class=\"jet-team-member__position\">";
-                    if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
-                        script += usuari.getCarrec1();
-                    }
-                    if (usuari.getCarrec2() != null && !usuari.getCarrec2().isEmpty()) {
-                        script += "<br>" + usuari.getCarrec2();
-                    }
-                    if (usuari.getCarrec3() != null && !usuari.getCarrec3().isEmpty()) {
-                        script += "<br>" + usuari.getCarrec3();
-                    }
-                    script += "</div>";
-                    script += "<p class=\"jet-team-member__desc\">"+usuari.getHorariAtencioPares()+"</p>";
-
-                    if (usuari.getProfessor() != null && usuari.getProfessor().getGsuiteEmail() != null) {
-                        script += "<div class=\"jet-team-member__socials\">";
-                        script += "<div class=\"jet-team-member__socials-item\"><a href=\"#\"><span class=\"jet-team-member__socials-label\">" + usuari.getProfessor().getGsuiteEmail() + "</span></a></div>";
-                        script += "</div>";
-                    }
-                    script += "</div>";
-                    script += "</div>";
-                    script += "</div>";
-                    script += "</div>";
-                    script += "</div>";
-                    script += "</div>";
-                    script += "</div>";
-                    script += "</div>";
-
-
-                    script += "</div>"; //Contenidor 1
-
-                    if (idx % 4 == 3) {
-                        script += "</section>";
-                    }
-                    idx++;
-                }
-            }
-        }
-
-        String result = " document.querySelector(\".elementor-element .elementor-widget .elementor-widget-text-editor\").innerHTML=''; ";
-        result += " var result = document.querySelector(\".elementor-element .elementor-widget .elementor-widget-text-editor\"); ";
-        result += " if(result){ result.innerHTML = `" + script + "`; } ";
-
-        return result;
-    }
 
 }

@@ -67,20 +67,28 @@ public class UsuariController {
                             LocalTime horaFiSessioPares = horaIniSessioPares.plusMinutes(Long.parseLong(sessioDto.getGestibDurada()));
 
                             String dia = "";
-                            if (sessioDto.getGestibDia().equals("1")) {
-                                dia = "Dilluns";
-                            } else if (sessioDto.getGestibDia().equals("2")) {
-                                dia = "Dimarts";
-                            } else if (sessioDto.getGestibDia().equals("3")) {
-                                dia = "Dimecres";
-                            } else if (sessioDto.getGestibDia().equals("4")) {
-                                dia = "Dijous";
-                            } else if (sessioDto.getGestibDia().equals("5")) {
-                                dia = "Divendres";
-                            } else if (sessioDto.getGestibDia().equals("6")) {
-                                dia = "Dissabte";
-                            } else if (sessioDto.getGestibDia().equals("7")) {
-                                dia = "Diumenge";
+                            switch (sessioDto.getGestibDia()) {
+                                case "1":
+                                    dia = "Dilluns";
+                                    break;
+                                case "2":
+                                    dia = "Dimarts";
+                                    break;
+                                case "3":
+                                    dia = "Dimecres";
+                                    break;
+                                case "4":
+                                    dia = "Dijous";
+                                    break;
+                                case "5":
+                                    dia = "Divendres";
+                                    break;
+                                case "6":
+                                    dia = "Dissabte";
+                                    break;
+                                case "7":
+                                    dia = "Diumenge";
+                                    break;
                             }
 
                             //String sessioStr = dia + " de " + horaIniSessioPares.format(DateTimeFormatter.ofPattern("HH:mm")) + " a " + horaFiSessioPares.format(DateTimeFormatter.ofPattern("HH:mm"));
@@ -121,7 +129,7 @@ public class UsuariController {
     public ResponseEntity<Notificacio> desar(@RequestBody String json) throws Exception {
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
 
-        Long idUsuari = jsonObject.get("id").getAsLong();
+        long idUsuari = jsonObject.get("id").getAsLong();
         String carrec1 = "";
         if (jsonObject.get("carrec1") != null && !jsonObject.get("carrec1").isJsonNull()) {
             carrec1 = jsonObject.get("carrec1").getAsString();

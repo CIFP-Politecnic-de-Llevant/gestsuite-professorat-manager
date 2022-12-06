@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -109,6 +110,59 @@ public class UsuariController {
                     }
                 }
 
+                if(usuari.getSubstitut()!=null){
+                    UsuariDto substitutDto = usuariService.findById(usuari.getSubstitut().getIdUsuari());
+
+                    ResponseEntity<CoreUsuariDto> substitutResponse = coreRestClient.getProfile(substitutDto.getProfessor().getIdusuari().toString());
+                    CoreUsuariDto substitut = substitutResponse.getBody();
+
+                    if (substitut != null) {
+                        substitutDto.setProfessor(substitut);
+
+                        //Sessions atenció pares
+                        if (sessionsAtencioPares != null) {
+                            List<SessioDto> sessionsSubstitut = sessionsAtencioPares.stream().filter(s -> s.getGestibProfessor().equals(substitut.getGestibCodi())).collect(Collectors.toList());
+                            List<String> sessionsSubstitutStr = new ArrayList<>();
+                            for (SessioDto sessioDto : sessionsSubstitut) {
+                                LocalTime horaIniSessioPares = LocalTime.parse(sessioDto.getGestibHora());
+                                LocalTime horaFiSessioPares = horaIniSessioPares.plusMinutes(Long.parseLong(sessioDto.getGestibDurada()));
+
+                                String dia = "";
+                                switch (sessioDto.getGestibDia()) {
+                                    case "1":
+                                        dia = "Dilluns";
+                                        break;
+                                    case "2":
+                                        dia = "Dimarts";
+                                        break;
+                                    case "3":
+                                        dia = "Dimecres";
+                                        break;
+                                    case "4":
+                                        dia = "Dijous";
+                                        break;
+                                    case "5":
+                                        dia = "Divendres";
+                                        break;
+                                    case "6":
+                                        dia = "Dissabte";
+                                        break;
+                                    case "7":
+                                        dia = "Diumenge";
+                                        break;
+                                }
+
+                                //String sessioStr = dia + " de " + horaIniSessioPares.format(DateTimeFormatter.ofPattern("HH:mm")) + " a " + horaFiSessioPares.format(DateTimeFormatter.ofPattern("HH:mm"));
+                                String sessioStr = dia + " " + horaIniSessioPares.format(DateTimeFormatter.ofPattern("HH:mm"));
+
+                                sessionsSubstitutStr.add(sessioStr);
+                            }
+                            substitutDto.setHorariAtencioPares(String.join(", ", sessionsSubstitutStr));
+                        }
+
+                        usuari.setSubstitut(substitutDto);
+                    }
+                }
 
                 usuariService.save(usuari);
 
@@ -178,9 +232,8 @@ public class UsuariController {
     public String generarScript(@PathVariable("id") Long identificador) throws Exception {
 
         ResponseEntity<List<CoreUsuariDto>> usuarisResponse = coreRestClient.getUsuarisByDepartament(identificador);
-        List<CoreUsuariDto> usuaris = usuarisResponse.getBody();
+        List<CoreUsuariDto> usuaris = usuarisResponse.getBody().stream().filter(CoreUsuariDto::getActiu).collect(Collectors.toList());
 
-        int idx = 0;
         String script = "";
 
         script += "<style>";
@@ -250,16 +303,32 @@ public class UsuariController {
 
         script += "<div class=\"professors elementor-container elementor-column-gap-default\">";
         if (usuaris != null && usuaris.size() > 0) {
+
+            Collections.sort(usuaris);
+
             for (CoreUsuariDto usuariCore : usuaris) {
                 UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
-                if (usuari != null) {
+                boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
+                if (usuari != null && !isSubstitut) {
+
+                    UsuariDto usuariSubstitut = null;
+                    if(usuari.getSubstitut() != null){
+                        usuariSubstitut = usuariService.findByCoreIdUsuari(usuari.getSubstitut().getProfessor().getIdusuari());
+                    }
+
                     script += "<div class=\"professor\">";
 
                     //Foto
                     if (usuari.getFoto() != null) {
-                        script += "<div class=\"foto\">";
-                        script += "<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
-                        script += "</div>";
+                        if(usuariSubstitut==null) {
+                            script += "<div class=\"foto\">";
+                            script += "<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
+                            script += "</div>";
+                        } else {
+                            script += "<div class=\"foto\">";
+                            script += "<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuariSubstitut.getFoto() + "\" alt=\"\"></figure>";
+                            script += "</div>";
+                        }
                     }
 
                     //Nom i cognoms

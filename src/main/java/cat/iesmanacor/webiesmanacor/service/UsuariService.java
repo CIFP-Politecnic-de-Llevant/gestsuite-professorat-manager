@@ -44,6 +44,16 @@ public class UsuariService {
         }
     }
 
+    public boolean usuariIsSubstitut(Long idUsuari) throws Exception {
+        Usuari usuari = usuariRepository.findById(idUsuari).orElse(null);
+        if(usuari!=null){
+            Usuari substitut = usuariRepository.findUsuariBySubstitut(usuari);
+            return substitut != null;
+        } else{
+            return false;
+        }
+    }
+
     public UsuariDto findById(Long idUsuari) throws Exception {
         ModelMapper modelMapper = new ModelMapper();
         Usuari usuari = usuariRepository.findById(idUsuari).orElse(null);

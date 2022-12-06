@@ -2,10 +2,11 @@ package cat.iesmanacor.webiesmanacor.dto;
 
 import lombok.Data;
 
+import java.util.Comparator;
 import java.util.Set;
 
 //@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public @Data class CoreUsuariDto implements Cloneable {
+public @Data class CoreUsuariDto implements Cloneable, Comparable<CoreUsuariDto> {
     private Long idusuari;
     private Boolean actiu;
     private Set<CoreRolDto> rols;
@@ -33,5 +34,12 @@ public @Data class CoreUsuariDto implements Cloneable {
     private Boolean gestibAlumne;
     public UsuariDto clone() throws CloneNotSupportedException {
         return (UsuariDto) super.clone();
+    }
+
+    @Override
+    public int compareTo(CoreUsuariDto o) {
+        String nomCompletThis = this.gestibCognom1+this.gestibCognom2+this.gestibNom;
+        String nomCompletO = o.getGestibCognom1()+o.getGestibCognom2()+o.getGestibNom();
+        return nomCompletThis.compareTo(nomCompletO);
     }
 }

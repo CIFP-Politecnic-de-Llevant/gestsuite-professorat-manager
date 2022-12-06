@@ -60,7 +60,7 @@ public class UsuariService {
         if(usuari!=null) {
             UsuariDto usuariDto = modelMapper.map(usuari, UsuariDto.class);
 
-            ResponseEntity<CoreUsuariDto> professorResponse = coreRestClient.getProfile(usuari.getProfessor().toString());
+            ResponseEntity<CoreUsuariDto> professorResponse = coreRestClient.getPublicProfile(usuari.getProfessor().toString());
             CoreUsuariDto professor = professorResponse.getBody();
 
             if(professor!=null) {

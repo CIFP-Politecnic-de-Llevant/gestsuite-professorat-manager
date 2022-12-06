@@ -260,6 +260,22 @@ public class UsuariController {
         script += ".professor .foto{";
         script += "     width: 235px;";
         script += "     height: 235px;";
+        script += "     position: relative;";
+        script += "}";
+
+        script += ".professor .foto-titular{";
+        script += "     width: 80px;";
+        script += "     height: 80px;";
+        script += "     filter: grayscale(1);";
+        script += "     position: absolute;";
+        script += "     bottom: 5px;";
+        script += "     right: 5px;";
+        script += "     margin: 0px;";
+        script += "     padding: 0px;";
+        script += "}";
+
+        script += ".professor .foto-titular img{";
+        script += "     border-radius: 5px;";
         script += "}";
 
         script += ".professor .foto img{";
@@ -313,7 +329,7 @@ public class UsuariController {
 
                     UsuariDto usuariSubstitut = null;
                     if(usuari.getSubstitut() != null){
-                        usuariSubstitut = usuariService.findByCoreIdUsuari(usuari.getSubstitut().getProfessor().getIdusuari());
+                        usuariSubstitut = usuariService.findById(usuari.getSubstitut().getIdUsuari());
                     }
 
                     script += "<div class=\"professor\">";
@@ -326,7 +342,8 @@ public class UsuariController {
                             script += "</div>";
                         } else {
                             script += "<div class=\"foto\">";
-                            script += "<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuariSubstitut.getFoto() + "\" alt=\"\"></figure>";
+                            script += "<figure class=\"foto-substitut\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuariSubstitut.getFoto() + "\" alt=\"\"></figure>";
+                            script += "<figure class=\"foto-titular\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
                             script += "</div>";
                         }
                     }

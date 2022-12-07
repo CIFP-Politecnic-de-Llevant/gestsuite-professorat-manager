@@ -268,8 +268,8 @@ public class UsuariController {
         script += "     height: 80px;";
         script += "     filter: grayscale(1);";
         script += "     position: absolute;";
-        script += "     bottom: 5px;";
-        script += "     right: 5px;";
+        script += "     bottom: 3px;";
+        script += "     right: 3px;";
         script += "     margin: 0px;";
         script += "     padding: 0px;";
         script += "}";
@@ -298,7 +298,7 @@ public class UsuariController {
         script += "     text-align: center;";
         script += "}";
 
-        script += ".professor .horaritutoria{";
+        script += ".professor .horaritutoria, .professor .nomsubstitut{";
         script += "     color: #54595f;";
         script += "     font-family: \"Montserrat Alternates\", Sans-serif;";
         script += "     font-size: 13px;";
@@ -349,8 +349,12 @@ public class UsuariController {
                     }
 
                     //Nom i cognoms
-                    script += "<h3>"+usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2()+", "+usuari.getProfessor().getGestibNom()+"</h3>";
-
+                    if(usuariSubstitut==null) {
+                        script += "<h3>" + usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2() + ", " + usuari.getProfessor().getGestibNom() + "</h3>";
+                    } else {
+                        script += "<h3>" + usuariSubstitut.getProfessor().getGestibCognom1() + " " + usuariSubstitut.getProfessor().getGestibCognom2() + ", " + usuariSubstitut.getProfessor().getGestibNom() + "</h3>";
+                        script += "<p class=\"nomsubstitut\">(Substitueix a "+usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2() + ", " + usuari.getProfessor().getGestibNom()+")</p>";
+                    }
                     //Càrrecs
                     script += "<div class=\"carrecs\">";
                     if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
@@ -367,12 +371,19 @@ public class UsuariController {
                     //Horari tutoria
                     script += "<p class=\"horaritutoria\">"+usuari.getHorariAtencioPares()+"</p>";
 
-                    if (usuari.getProfessor().getGsuiteEmail() != null) {
-                        script += "<p class=\"email\"><a href=\"mailto:"+usuari.getProfessor().getGsuiteEmail()+"\">";
-                        script += usuari.getProfessor().getGsuiteEmail();
-                        script += "</a></p>";
+                    if(usuariSubstitut==null) {
+                        if (usuari.getProfessor().getGsuiteEmail() != null) {
+                            script += "<p class=\"email\"><a href=\"mailto:" + usuari.getProfessor().getGsuiteEmail() + "\">";
+                            script += usuari.getProfessor().getGsuiteEmail();
+                            script += "</a></p>";
+                        }
+                    } else {
+                        if (usuariSubstitut.getProfessor().getGsuiteEmail() != null) {
+                            script += "<p class=\"email\"><a href=\"mailto:" + usuariSubstitut.getProfessor().getGsuiteEmail() + "\">";
+                            script += usuariSubstitut.getProfessor().getGsuiteEmail();
+                            script += "</a></p>";
+                        }
                     }
-
 
                     script += "</div>"; //class professor
                 }

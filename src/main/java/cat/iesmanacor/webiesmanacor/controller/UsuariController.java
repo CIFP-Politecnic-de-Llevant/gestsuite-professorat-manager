@@ -298,13 +298,22 @@ public class UsuariController {
         script += "     text-align: center;";
         script += "}";
 
-        script += ".professor .horaritutoria, .professor .nomsubstitut{";
+        script += ".professor .horaritutoria{";
         script += "     color: #54595f;";
         script += "     font-family: \"Montserrat Alternates\", Sans-serif;";
         script += "     font-size: 13px;";
         script += "     font-weight: normal;";
         script += "     text-align: center;";
         script += "}";
+
+        script += ".professor .nomsubstitut{";
+        script += "     color: #54595f;";
+        script += "     font-family: \"Roboto\", Sans-serif;";
+        script += "     font-size: 13px;";
+        script += "     font-weight: normal;";
+        script += "     text-align: center;";
+        script += "}";
+
 
         script += ".professor .email{";
         script += "     color: #54595F;";

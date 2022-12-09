@@ -2,6 +2,7 @@ package cat.iesmanacor.webiesmanacor.controller;
 
 import cat.iesmanacor.common.model.Notificacio;
 import cat.iesmanacor.common.model.NotificacioTipus;
+import cat.iesmanacor.common.service.UtilService;
 import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
 import cat.iesmanacor.webiesmanacor.dto.DepartamentDto;
 import cat.iesmanacor.webiesmanacor.dto.SessioDto;
@@ -15,6 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -57,6 +63,18 @@ public class UsuariController {
                 CoreUsuariDto professor = professorResponse.getBody();
 
                 if (professor != null) {
+                    if(usuari.getNom()== null || usuari.getNom().isEmpty()) {
+                        String nom = UtilService.capitalize(professor.getGestibNom());
+                        String cognom1 = UtilService.capitalize(professor.getGestibCognom1());
+                        String cognom2 = UtilService.capitalize(professor.getGestibCognom2());
+
+                        usuari.setNom(cognom1 + " " + cognom2 + ", " + nom);
+                    }
+
+                    if(usuari.getVisible()==null){
+                        usuari.setVisible(true);
+                    }
+
                     usuari.setProfessor(professor);
 
                     //Sessions atenció pares
@@ -206,15 +224,20 @@ public class UsuariController {
             substitut = usuariService.findById(jsonObject.get("substitut").getAsJsonObject().get("id").getAsLong());
         }
 
+        String nom = jsonObject.get("nom").getAsString();
+        Boolean visible = jsonObject.get("visible").getAsBoolean();
+
         UsuariDto usuariOld = usuariService.findById(idUsuari);
 
         UsuariDto usuari = new UsuariDto();
         usuari.setIdUsuari(idUsuari);
+        usuari.setNom(nom);
         usuari.setCarrec1(carrec1);
         usuari.setCarrec2(carrec2);
         usuari.setCarrec3(carrec3);
         usuari.setFoto(foto);
         usuari.setSubstitut(substitut);
+        usuari.setVisible(visible);
 
         //Deixem el professor i el departament
         usuari.setProfessor(usuariOld.getProfessor());
@@ -227,187 +250,5 @@ public class UsuariController {
         notificacio.setNotifyType(NotificacioTipus.SUCCESS);
         return new ResponseEntity<>(notificacio, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/public/loadDepartament/{id}/script.js", produces = "text/javascript")
-    public String generarScript(@PathVariable("id") Long identificador) throws Exception {
-
-        ResponseEntity<List<CoreUsuariDto>> usuarisResponse = coreRestClient.getUsuarisByDepartament(identificador);
-        List<CoreUsuariDto> usuaris = usuarisResponse.getBody().stream().filter(CoreUsuariDto::getActiu).collect(Collectors.toList());
-
-        String script = "";
-
-        script += "<style>";
-
-        script += ".professors{";
-        script += "    display: flex !important;";
-        script += "    flex-wrap: wrap !important;";
-        script += "    justify-content: center;";
-        script += "    gap: 20px;";
-        script += "}";
-
-        script += ".professor{";
-        script += "     background: #E7E7E7;";
-        script += "     padding: 10px;";
-        script += "     width: 255px;";
-        script += "     box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;";
-        script += "     border-radius: 5px;";
-        script += "     display: flex;";
-        script += "     flex-flow: column;";
-        script += "     align-items: center;";
-        script += "     justify-content: space-between;";
-        script += "}";
-
-        script += ".professor .foto{";
-        script += "     width: 235px;";
-        script += "     height: 235px;";
-        script += "     position: relative;";
-        script += "}";
-
-        script += ".professor .foto-titular{";
-        script += "     width: 80px;";
-        script += "     height: 80px;";
-        script += "     filter: grayscale(1);";
-        script += "     position: absolute;";
-        script += "     bottom: 3px;";
-        script += "     right: 3px;";
-        script += "     margin: 0px;";
-        script += "     padding: 0px;";
-        script += "}";
-
-        script += ".professor .foto-titular img{";
-        script += "     border-radius: 5px;";
-        script += "}";
-
-        script += ".professor .foto img{";
-        script += "     object-fit: cover;";
-        script += "}";
-
-        script += ".professor h3{";
-        script += "     font-family: \"Roboto\", Sans-serif;";
-        script += "     font-size: 0.9em;";
-        script += "     font-weight: 400;";
-        script += "     text-align: center;";
-        script += "     margin: 10px 0;";
-        script += "}";
-
-        script += ".professor .carrecs{";
-        script += "     color: #EE863A;";
-        script += "     font-family: \"Roboto\", Sans-serif;";
-        script += "     font-size: 14px;";
-        script += "     font-weight: 400;";
-        script += "     text-align: center;";
-        script += "}";
-
-        script += ".professor .horaritutoria{";
-        script += "     color: #54595f;";
-        script += "     font-family: \"Montserrat Alternates\", Sans-serif;";
-        script += "     font-size: 13px;";
-        script += "     font-weight: normal;";
-        script += "     text-align: center;";
-        script += "}";
-
-        script += ".professor .nomsubstitut{";
-        script += "     color: #54595f;";
-        script += "     font-family: \"Roboto\", Sans-serif;";
-        script += "     font-size: 13px;";
-        script += "     font-weight: normal;";
-        script += "     text-align: center;";
-        script += "}";
-
-
-        script += ".professor .email{";
-        script += "     color: #54595F;";
-        script += "     font-family: \"Roboto\", Sans-serif;";
-        script += "     font-size: 13px;";
-        script += "     font-weight: 400;";
-        script += "     text-align: center;";
-        script += "}";
-
-
-        script += "</style>";
-
-        script += "<div class=\"professors elementor-container elementor-column-gap-default\">";
-        if (usuaris != null && usuaris.size() > 0) {
-
-            Collections.sort(usuaris);
-
-            for (CoreUsuariDto usuariCore : usuaris) {
-                UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
-                boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
-                if (usuari != null && !isSubstitut) {
-
-                    UsuariDto usuariSubstitut = null;
-                    if(usuari.getSubstitut() != null){
-                        usuariSubstitut = usuariService.findById(usuari.getSubstitut().getIdUsuari());
-                    }
-
-                    script += "<div class=\"professor\">";
-
-                    //Foto
-                    if (usuari.getFoto() != null) {
-                        if(usuariSubstitut==null) {
-                            script += "<div class=\"foto\">";
-                            script += "<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
-                            script += "</div>";
-                        } else {
-                            script += "<div class=\"foto\">";
-                            script += "<figure class=\"foto-substitut\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuariSubstitut.getFoto() + "\" alt=\"\"></figure>";
-                            script += "<figure class=\"foto-titular\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
-                            script += "</div>";
-                        }
-                    }
-
-                    //Nom i cognoms
-                    if(usuariSubstitut==null) {
-                        script += "<h3>" + usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2() + ", " + usuari.getProfessor().getGestibNom() + "</h3>";
-                    } else {
-                        script += "<h3>" + usuariSubstitut.getProfessor().getGestibCognom1() + " " + usuariSubstitut.getProfessor().getGestibCognom2() + ", " + usuariSubstitut.getProfessor().getGestibNom() + "</h3>";
-                        script += "<p class=\"nomsubstitut\">(Substitueix a "+usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2() + ", " + usuari.getProfessor().getGestibNom()+")</p>";
-                    }
-                    //Càrrecs
-                    script += "<div class=\"carrecs\">";
-                    if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
-                        script += usuari.getCarrec1();
-                    }
-                    if (usuari.getCarrec2() != null && !usuari.getCarrec2().isEmpty()) {
-                        script += "<br>" + usuari.getCarrec2();
-                    }
-                    if (usuari.getCarrec3() != null && !usuari.getCarrec3().isEmpty()) {
-                        script += "<br>" + usuari.getCarrec3();
-                    }
-                    script += "</div>";
-
-                    //Horari tutoria
-                    script += "<p class=\"horaritutoria\">"+usuari.getHorariAtencioPares()+"</p>";
-
-                    if(usuariSubstitut==null) {
-                        if (usuari.getProfessor().getGsuiteEmail() != null) {
-                            script += "<p class=\"email\"><a href=\"mailto:" + usuari.getProfessor().getGsuiteEmail() + "\">";
-                            script += usuari.getProfessor().getGsuiteEmail();
-                            script += "</a></p>";
-                        }
-                    } else {
-                        if (usuariSubstitut.getProfessor().getGsuiteEmail() != null) {
-                            script += "<p class=\"email\"><a href=\"mailto:" + usuariSubstitut.getProfessor().getGsuiteEmail() + "\">";
-                            script += usuariSubstitut.getProfessor().getGsuiteEmail();
-                            script += "</a></p>";
-                        }
-                    }
-
-                    script += "</div>"; //class professor
-                }
-            }
-        }
-        script += "</div>"; //professors
-
-        String selector = "section .elementor-container .elementor-column .elementor-element.elementor-widget.elementor-widget-text-editor";
-
-        String result = " document.querySelector(\""+selector+"\").innerHTML=''; ";
-        result += " var resultScript = document.querySelector(\""+selector+"\"); ";
-        result += " if(resultScript){ resultScript.innerHTML = `" + script + "`; } ";
-
-        return result;
-    }
-
 
 }

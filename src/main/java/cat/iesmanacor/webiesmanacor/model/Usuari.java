@@ -12,6 +12,9 @@ public @Data class Usuari {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuari;
 
+    @Column(name = "nom", nullable = true, length = 2048)
+    private String nom;
+
     @Column(name = "foto", nullable = true, length = 2048)
     private String foto;
 
@@ -23,6 +26,9 @@ public @Data class Usuari {
 
     @Column(name = "carrec3", nullable = true, length = 2048)
     private String carrec3;
+
+    @Column(name = "visible", nullable = false)
+    private Boolean visible;
 
     @OneToOne(optional = true)
     private Usuari substitut;

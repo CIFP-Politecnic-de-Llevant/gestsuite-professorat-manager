@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,10 +44,33 @@ public class DepartamentController {
     private Gson gson;
 
 
-    @GetMapping(value = "/departament/generarScript")
-    public void generarScript(@PathVariable("id") Long identificador) throws Exception {
+    @PostMapping(value = "/departament/generarScript")
+    public ResponseEntity<Notificacio> generarScript(@RequestBody String json) throws Exception {
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+
+        Long identificador = jsonObject.get("id").getAsLong();
+
         String script = this.getScriptByDepartamentID(identificador);
         this.generateScript(script,identificador);
+
+        Notificacio notificacio = new Notificacio();
+        notificacio.setNotifyMessage("Script generat correctament");
+        notificacio.setNotifyType(NotificacioTipus.SUCCESS);
+        return new ResponseEntity<>(notificacio, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/departament/recuperarBackupScript")
+    public ResponseEntity<Notificacio> recuperarBackup(@RequestBody String json) throws Exception {
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+
+        Long identificador = jsonObject.get("id").getAsLong();
+
+        this.recoverBackup(identificador);
+
+        Notificacio notificacio = new Notificacio();
+        notificacio.setNotifyMessage("Script recuperat correctament");
+        notificacio.setNotifyType(NotificacioTipus.SUCCESS);
+        return new ResponseEntity<>(notificacio, HttpStatus.OK);
     }
 
     @GetMapping(value = "/public/loadDepartament/{id}/script.js", produces = "text/javascript")
@@ -70,10 +95,29 @@ public class DepartamentController {
 
     private void generateScript(String script, Long identificador) throws Exception {
         final String FILE_NAME = "/tmp/departament_"+identificador+".txt";
+
+        //Backup
+        Path path = Paths.get(FILE_NAME);
+        if (Files.exists(path)) {
+            Path pathbackup = Paths.get(FILE_NAME + "-backup");
+            Files.copy(path, pathbackup, StandardCopyOption.REPLACE_EXISTING);
+        }
+
         FileOutputStream fos = new FileOutputStream(FILE_NAME);
         DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos));
         outStream.writeUTF(script);
         outStream.close();
+    }
+
+    private void recoverBackup(Long identificador) throws IOException {
+        final String FILE_NAME = "/tmp/departament_"+identificador+".txt";
+
+        //Backup
+        Path path = Paths.get(FILE_NAME);
+        Path pathbackup = Paths.get(FILE_NAME + "-backup");
+        if (Files.exists(pathbackup)) {
+            Files.copy(pathbackup, path, StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
 

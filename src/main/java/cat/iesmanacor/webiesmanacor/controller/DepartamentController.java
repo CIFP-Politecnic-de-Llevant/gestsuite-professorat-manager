@@ -174,7 +174,7 @@ public class DepartamentController {
         script += "}";
 
         script += ".professor .foto-titular img{";
-        script += "     border-radius: 5px;";
+        script += "     border-radius: 2px;";
         script += "}";
 
         script += ".professor .foto img{";

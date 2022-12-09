@@ -15,10 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -79,7 +76,7 @@ public class DepartamentController {
 
         Path path = Paths.get(FILE_NAME);
 
-        String content = "";
+        String content;
         if (Files.exists(path)) {
             System.out.println("File already exists");
             Files.newBufferedReader(path, StandardCharsets.UTF_8);
@@ -103,10 +100,13 @@ public class DepartamentController {
             Files.copy(path, pathbackup, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        FileOutputStream fos = new FileOutputStream(FILE_NAME);
+        FileWriter myWriter = new FileWriter(FILE_NAME);
+        myWriter.write(script);
+        myWriter.close();
+        /*FileOutputStream fos = new FileOutputStream(FILE_NAME);
         DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos));
         outStream.writeUTF(script);
-        outStream.close();
+        outStream.close();*/
     }
 
     private void recoverBackup(Long identificador) throws IOException {
@@ -142,12 +142,18 @@ public class DepartamentController {
         script += "     background: #E7E7E7;";
         script += "     padding: 10px;";
         script += "     width: 255px;";
-        //script += "     box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;";
-        //script += "     border-radius: 5px;";
+        script += "     display: flex;";
+        script += "     flex-flow: column;";
+        script += "     align-items: center;";
+        script += "     justify-content: start;";
+        script += "}";
+
+        script += ".professor .informacio{";
         script += "     display: flex;";
         script += "     flex-flow: column;";
         script += "     align-items: center;";
         script += "     justify-content: space-between;";
+        script += "     height: 100%;";
         script += "}";
 
         script += ".professor .foto{";
@@ -250,12 +256,14 @@ public class DepartamentController {
                         }
                     }
 
+                    script += "<div class=\"informacio\">";
+
                     //Nom i cognoms
                     if(usuariSubstitut==null) {
-                        script += "<h3>" + usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2() + ", " + usuari.getProfessor().getGestibNom() + "</h3>";
+                        script += "<h3>" + usuari.getNom() + "</h3>";
                     } else {
-                        script += "<h3>" + usuariSubstitut.getProfessor().getGestibCognom1() + " " + usuariSubstitut.getProfessor().getGestibCognom2() + ", " + usuariSubstitut.getProfessor().getGestibNom() + "</h3>";
-                        script += "<p class=\"nomsubstitut\">(Substitueix a "+usuari.getProfessor().getGestibCognom1() + " " + usuari.getProfessor().getGestibCognom2() + ", " + usuari.getProfessor().getGestibNom()+")</p>";
+                        script += "<h3>" + usuariSubstitut.getNom() + "</h3>";
+                        script += "<p class=\"nomsubstitut\">(Substitueix a "+usuari.getNom()+")</p>";
                     }
                     //Càrrecs
                     script += "<div class=\"carrecs\">";
@@ -286,6 +294,8 @@ public class DepartamentController {
                             script += "</a></p>";
                         }
                     }
+
+                    script += "</div>"; //class informació
 
                     script += "</div>"; //class professor
                 }

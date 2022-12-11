@@ -59,7 +59,7 @@ public class UsuariController {
                     usuari = new UsuariDto();
                 }
 
-                ResponseEntity<CoreUsuariDto> professorResponse = coreRestClient.getProfile(usuariCore.getIdusuari().toString());
+                ResponseEntity<CoreUsuariDto> professorResponse = coreRestClient.getPublicProfile(usuariCore.getIdusuari().toString());
                 CoreUsuariDto professor = professorResponse.getBody();
 
                 if (professor != null) {

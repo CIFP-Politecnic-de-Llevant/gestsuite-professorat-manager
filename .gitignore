@@ -36,3 +36,5 @@ build/
 /.mvn/wrapper/maven-wrapper.jar
 /.mvn/wrapper/maven-wrapper.properties
 /src/main/resources/bootstrap.properties
+/src/main/resources/bootstrap-docker.properties
+/src/main/resources/bootstrap-local.properties

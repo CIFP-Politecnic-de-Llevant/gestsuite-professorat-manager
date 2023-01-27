@@ -3,10 +3,7 @@ package cat.iesmanacor.webiesmanacor.controller;
 import cat.iesmanacor.common.model.Notificacio;
 import cat.iesmanacor.common.model.NotificacioTipus;
 import cat.iesmanacor.common.service.UtilService;
-import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
-import cat.iesmanacor.webiesmanacor.dto.DepartamentDto;
-import cat.iesmanacor.webiesmanacor.dto.SessioDto;
-import cat.iesmanacor.webiesmanacor.dto.UsuariDto;
+import cat.iesmanacor.webiesmanacor.dto.*;
 import cat.iesmanacor.webiesmanacor.restclient.CoreRestClient;
 import cat.iesmanacor.webiesmanacor.service.UsuariService;
 import com.google.gson.Gson;
@@ -117,6 +114,23 @@ public class UsuariController {
                         }
                         usuari.setHorariAtencioPares(String.join(", ", sessionsProfessorStr));
                     }
+
+                    //Tutoria
+                    ResponseEntity<List<GrupDto>> grupsTutorResponse = coreRestClient.getGrupsByTutor(professor.getIdusuari());
+                    List<GrupDto> grupsTutor = grupsTutorResponse.getBody();
+                    if (grupsTutor != null) {
+                        List<String> grupsTutorStr = new ArrayList<>();
+                        for (GrupDto grupDto : grupsTutor) {
+                            ResponseEntity<CursDto> cursResponse = coreRestClient.getCursByCodiGestib(grupDto.getGestibCurs());
+                            CursDto curs = cursResponse.getBody();
+
+                            if(curs!=null) {
+                                grupsTutorStr.add(curs.getGestibNom() + grupDto.getGestibNom());
+                            }
+                        }
+                        usuari.setTutoria(String.join(", ", grupsTutorStr));
+                    }
+
                 }
 
                 if (usuariCore.getGestibDepartament() != null && !usuariCore.getGestibDepartament().isEmpty()) {

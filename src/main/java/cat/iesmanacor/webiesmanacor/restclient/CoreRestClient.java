@@ -2,6 +2,8 @@ package cat.iesmanacor.webiesmanacor.restclient;
 
 import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
 import cat.iesmanacor.webiesmanacor.dto.DepartamentDto;
+import cat.iesmanacor.webiesmanacor.dto.GrupDto;
+import cat.iesmanacor.webiesmanacor.dto.CursDto;
 import cat.iesmanacor.webiesmanacor.dto.SessioDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -37,4 +39,12 @@ public interface CoreRestClient {
     //Sessió
     @GetMapping("/sessio/pares")
     ResponseEntity<List<SessioDto>> getSessionsAtencioPares();
+
+    //Grup
+    @GetMapping("/grup/getGrupsByTutor/{idusuari}")
+    ResponseEntity<List<GrupDto>> getGrupsByTutor(@PathVariable("idusuari") Long idusuari);
+
+    //Curs
+    @GetMapping("/curs/getByCodiGestib/{id}")
+    ResponseEntity<CursDto> getCursByCodiGestib(@PathVariable("id") String identificador);
 }

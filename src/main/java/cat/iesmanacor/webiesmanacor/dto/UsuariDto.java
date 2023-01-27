@@ -15,4 +15,5 @@ public @Data class UsuariDto {
     private CoreUsuariDto professor;
     private DepartamentDto departament;
     private String horariAtencioPares;
+    private String tutoria;
 }

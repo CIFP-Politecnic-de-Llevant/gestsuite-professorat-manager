@@ -42,4 +42,7 @@ public @Data class Usuari {
 
     @Column(name = "horari_atencio_pares", nullable = true, length = 2048)
     private String horariAtencioPares;
+
+    @Column(name = "tutoria", nullable = true, length = 2048)
+    private String tutoria;
 }

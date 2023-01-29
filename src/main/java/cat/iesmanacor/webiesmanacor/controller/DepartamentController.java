@@ -123,107 +123,107 @@ public class DepartamentController {
         ResponseEntity<List<CoreUsuariDto>> usuarisResponse = coreRestClient.getUsuarisByDepartament(identificador);
         List<CoreUsuariDto> usuaris = usuarisResponse.getBody().stream().filter(CoreUsuariDto::getActiu).collect(Collectors.toList());
 
-        String script = "";
+        StringBuilder script = new StringBuilder();
 
-        script += "<style>";
+        script.append("<style>");
 
-        script += "@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');";
+        script.append("@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');");
 
-        script += ".professors{";
-        script += "    display: flex !important;";
-        script += "    flex-wrap: wrap !important;";
-        script += "    justify-content: center;";
-        script += "    gap: 20px;";
-        script += "}";
+        script.append(".professors{");
+        script.append("    display: flex !important;");
+        script.append("    flex-wrap: wrap !important;");
+        script.append("    justify-content: center;");
+        script.append("    gap: 20px;");
+        script.append("}");
 
-        script += ".professor{";
-        script += "     background: #E7E7E7;";
-        script += "     padding: 10px;";
-        script += "     width: 255px;";
-        script += "     display: flex;";
-        script += "     flex-flow: column;";
-        script += "     align-items: center;";
-        script += "     justify-content: start;";
-        script += "}";
+        script.append(".professor{");
+        script.append("     background: #E7E7E7;");
+        script.append("     padding: 10px;");
+        script.append("     width: 255px;");
+        script.append("     display: flex;");
+        script.append("     flex-flow: column;");
+        script.append("     align-items: center;");
+        script.append("     justify-content: start;");
+        script.append("}");
 
-        script += ".professor .informacio{";
-        script += "     display: flex;";
-        script += "     flex-flow: column;";
-        script += "     align-items: center;";
-        script += "     justify-content: space-between;";
-        script += "     height: 100%;";
-        script += "}";
+        script.append(".professor .informacio{");
+        script.append("     display: flex;");
+        script.append("     flex-flow: column;");
+        script.append("     align-items: center;");
+        script.append("     justify-content: space-between;");
+        script.append("     height: 100%;");
+        script.append("}");
 
-        script += ".professor .foto{";
-        script += "     width: 235px;";
-        script += "     height: 235px;";
-        script += "     position: relative;";
-        script += "}";
+        script.append(".professor .foto{");
+        script.append("     width: 235px;");
+        script.append("     height: 235px;");
+        script.append("     position: relative;");
+        script.append("}");
 
-        script += ".professor .foto-titular{";
-        script += "     width: 80px;";
-        script += "     height: 80px;";
-        script += "     filter: grayscale(1);";
-        script += "     position: absolute;";
-        script += "     bottom: 3px;";
-        script += "     right: 3px;";
-        script += "     margin: 0px;";
-        script += "     padding: 0px;";
-        script += "}";
+        script.append(".professor .foto-titular{");
+        script.append("     width: 80px;");
+        script.append("     height: 80px;");
+        script.append("     filter: grayscale(1);");
+        script.append("     position: absolute;");
+        script.append("     bottom: 3px;");
+        script.append("     right: 3px;");
+        script.append("     margin: 0px;");
+        script.append("     padding: 0px;");
+        script.append("}");
 
-        script += ".professor .foto-titular img{";
-        script += "     border-radius: 2px;";
-        script += "}";
+        script.append(".professor .foto-titular img{");
+        script.append("     border-radius: 2px;");
+        script.append("}");
 
-        script += ".professor .foto img{";
-        script += "     object-fit: cover;";
-        script += "}";
+        script.append(".professor .foto img{");
+        script.append("     object-fit: cover;");
+        script.append("}");
 
-        script += ".professor h3{";
-        script += "     font-family: \"Roboto\", Sans-serif;";
-        script += "     font-size: 0.9em;";
-        script += "     font-weight: 400;";
-        script += "     text-align: center;";
-        script += "     margin: 10px 0;";
-        script += "}";
+        script.append(".professor h3{");
+        script.append("     font-family: \"Roboto\", Sans-serif;");
+        script.append("     font-size: 0.9em;");
+        script.append("     font-weight: 400;");
+        script.append("     text-align: center;");
+        script.append("     margin: 10px 0;");
+        script.append("}");
 
-        script += ".professor .carrecs{";
-        script += "     color: #EE863A;";
-        script += "     font-family: \"Roboto\", Sans-serif;";
-        script += "     font-size: 14px;";
-        script += "     font-weight: 400;";
-        script += "     text-align: center;";
-        script += "}";
+        script.append(".professor .carrecs{");
+        script.append("     color: #EE863A;");
+        script.append("     font-family: \"Roboto\", Sans-serif;");
+        script.append("     font-size: 14px;");
+        script.append("     font-weight: 400;");
+        script.append("     text-align: center;");
+        script.append("}");
 
-        script += ".professor .horaritutoria{";
-        script += "     color: #54595f;";
-        script += "     font-family: \"Montserrat Alternates\", Sans-serif;";
-        script += "     font-size: 13px;";
-        script += "     font-weight: normal;";
-        script += "     text-align: center;";
-        script += "}";
+        script.append(".professor .horaritutoria{");
+        script.append("     color: #54595f;");
+        script.append("     font-family: \"Montserrat Alternates\", Sans-serif;");
+        script.append("     font-size: 13px;");
+        script.append("     font-weight: normal;");
+        script.append("     text-align: center;");
+        script.append("}");
 
-        script += ".professor .nomsubstitut{";
-        script += "     color: #54595f;";
-        script += "     font-family: \"Montserrat\", Sans-serif;";
-        script += "     font-size: 13px;";
-        script += "     font-weight: normal;";
-        script += "     text-align: center;";
-        script += "}";
-
-
-        script += ".professor .email{";
-        script += "     color: #54595F;";
-        script += "     font-family: \"Roboto\", Sans-serif;";
-        script += "     font-size: 13px;";
-        script += "     font-weight: 400;";
-        script += "     text-align: center;";
-        script += "}";
+        script.append(".professor .nomsubstitut{");
+        script.append("     color: #54595f;");
+        script.append("     font-family: \"Montserrat\", Sans-serif;");
+        script.append("     font-size: 13px;");
+        script.append("     font-weight: normal;");
+        script.append("     text-align: center;");
+        script.append("}");
 
 
-        script += "</style>";
+        script.append(".professor .email{");
+        script.append("     color: #54595F;");
+        script.append("     font-family: \"Roboto\", Sans-serif;");
+        script.append("     font-size: 13px;");
+        script.append("     font-weight: 400;");
+        script.append("     text-align: center;");
+        script.append("}");
 
-        script += "<div class=\"professors elementor-container elementor-column-gap-default\">";
+
+        script.append("</style>");
+
+        script.append("<div class=\"professors elementor-container elementor-column-gap-default\">");
         if (usuaris != null && usuaris.size() > 0) {
 
             Collections.sort(usuaris);
@@ -238,68 +238,74 @@ public class DepartamentController {
                         usuariSubstitut = usuariService.findById(usuari.getSubstitut().getIdUsuari());
                     }
 
-                    script += "<div class=\"professor\">";
+                    script.append("<div class=\"professor\">");
 
                     //Foto
                     if (usuari.getFoto() != null) {
                         if(usuariSubstitut==null) {
-                            script += "<div class=\"foto\">";
-                            script += "<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
-                            script += "</div>";
+                            script.append("<div class=\"foto\">");
+                            script.append("<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
+                            script.append("</div>");
                         } else {
-                            script += "<div class=\"foto\">";
-                            script += "<figure class=\"foto-substitut\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuariSubstitut.getFoto() + "\" alt=\"\"></figure>";
-                            script += "<figure class=\"foto-titular\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/" + usuari.getFoto() + "\" alt=\"\"></figure>";
-                            script += "</div>";
+                            script.append("<div class=\"foto\">");
+                            script.append("<figure class=\"foto-substitut\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuariSubstitut.getFoto()).append("\" alt=\"\"></figure>");
+                            script.append("<figure class=\"foto-titular\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
+                            script.append("</div>");
                         }
                     }
 
-                    script += "<div class=\"informacio\">";
+                    script.append("<div class=\"informacio\">");
 
                     //Nom i cognoms
                     if(usuariSubstitut==null) {
-                        script += "<h3>" + usuari.getNom() + "</h3>";
+                        script.append("<h3>").append(usuari.getNom()).append("</h3>");
                     } else {
-                        script += "<h3>" + usuariSubstitut.getNom() + "</h3>";
-                        script += "<p class=\"nomsubstitut\">(Substitueix a "+usuari.getNom()+")</p>";
+                        script.append("<h3>").append(usuariSubstitut.getNom()).append("</h3>");
+                        script.append("<p class=\"nomsubstitut\">(Substitueix a ").append(usuari.getNom()).append(")</p>");
                     }
                     //Càrrecs
-                    script += "<div class=\"carrecs\">";
+                    script.append("<div class=\"carrecs\">");
+                    if (usuari.getTutoria() != null && !usuari.getTutoria().isEmpty()) {
+                        script.append("Tutoria ").append(usuari.getTutoria());
+                    }
                     if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
-                        script += usuari.getCarrec1();
+                        if (usuari.getTutoria() != null && !usuari.getTutoria().isEmpty()) {
+                            script.append("<br>");
+                        }
+                        script.append(usuari.getCarrec1());
                     }
                     if (usuari.getCarrec2() != null && !usuari.getCarrec2().isEmpty()) {
-                        script += "<br>" + usuari.getCarrec2();
+                        script.append("<br>").append(usuari.getCarrec2());
                     }
                     if (usuari.getCarrec3() != null && !usuari.getCarrec3().isEmpty()) {
-                        script += "<br>" + usuari.getCarrec3();
+                        script.append("<br>").append(usuari.getCarrec3());
                     }
-                    script += "</div>";
+                    script.append("</div>");
 
                     //Horari tutoria
-                    script += "<p class=\"horaritutoria\">"+usuari.getHorariAtencioPares()+"</p>";
+                    script.append("<p class=\"horaritutoria\">").append(usuari.getHorariAtencioPares()).append("</p>");
 
                     if(usuariSubstitut==null) {
                         if (usuari.getProfessor().getGsuiteEmail() != null) {
-                            script += "<p class=\"email\"><a href=\"mailto:" + usuari.getProfessor().getGsuiteEmail() + "\">";
-                            script += usuari.getProfessor().getGsuiteEmail();
-                            script += "</a></p>";
+                            script.append("<p class=\"email\"><a href=\"mailto:").append(usuari.getProfessor().getGsuiteEmail()).append("\">");
+                            script.append(usuari.getProfessor().getGsuiteEmail());
+                            script.append("</a></p>");
                         }
                     } else {
                         if (usuariSubstitut.getProfessor().getGsuiteEmail() != null) {
-                            script += "<p class=\"email\"><a href=\"mailto:" + usuariSubstitut.getProfessor().getGsuiteEmail() + "\">";
-                            script += usuariSubstitut.getProfessor().getGsuiteEmail();
-                            script += "</a></p>";
+                            script.append("<p class=\"email\"><a href=\"mailto:").append(usuariSubstitut.getProfessor().getGsuiteEmail()).append("\">");
+                            script.append(usuariSubstitut.getProfessor().getGsuiteEmail());
+                            script.append("</a></p>");
                         }
                     }
 
-                    script += "</div>"; //class informació
+                    script.append("</div>"); //class informació
 
-                    script += "</div>"; //class professor
+                    script.append("</div>"); //class professor
                 }
             }
         }
-        script += "</div>"; //professors
+        script.append("</div>"); //professors
 
         String selector = "section .elementor-container .elementor-column .elementor-element.elementor-widget.elementor-widget-text-editor";
 

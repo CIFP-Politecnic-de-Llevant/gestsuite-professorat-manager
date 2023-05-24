@@ -1,12 +1,24 @@
-FROM maven:amazoncorretto
-#FROM openjdk:11-jdk-slim
-
+FROM maven:3-amazoncorretto-17 as develop-stage-webiesmanacor
 WORKDIR /resources
-COPY ../gestsuite-common/target/common-0.0.1-SNAPSHOT.jar .
-COPY ../gestsuite-common/pom.xml .
-RUN mvn install:install-file -Dfile=/resources/common-0.0.1-SNAPSHOT.jar -DpomFile=/resources/pom.xml
-#WORKDIR /app
-#RUN ./app/mvnw install:install-file -Dfile=/resources/common-0.0.1-SNAPSHOT.jar -DpomFile=/resources/pom.xml
+
+COPY /api/gestsuite-common/ /external/
+RUN mvn clean compile install -f /external/pom.xml
+
+COPY /api/gestsuite-webiesmanacor .
+RUN mvn clean package -f pom.xml
+ENTRYPOINT ["mvn","spring-boot:run","-f","pom.xml"]
+
+FROM maven:3-amazoncorretto-17 as build-stage-webiesmanacor
+WORKDIR /resources
+
+COPY /api/gestsuite-common/ /external/
+RUN mvn clean compile install -f /external/pom.xml
 
 
-#RUN ./mvnw clean compile install package
+COPY /api/gestsuite-webiesmanacor .
+RUN mvn clean package -f pom.xml
+
+FROM amazoncorretto:17-alpine-jdk as production-stage-webiesmanacor
+COPY --from=build-stage-webiesmanacor /resources/target/webiesmanacor-0.0.1-SNAPSHOT.jar webiesmanacor.jar
+COPY /config/iesmanacor-e0d4f26d9c2c.json /resources/iesmanacor-e0d4f26d9c2c.json
+ENTRYPOINT ["java","-jar","/webiesmanacor.jar"]

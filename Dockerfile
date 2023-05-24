@@ -4,7 +4,7 @@ WORKDIR /resources
 COPY /api/gestsuite-common/ /external/
 RUN mvn clean compile install -f /external/pom.xml
 
-COPY /api/gestsuite-webiesmanacor .
+COPY /api/gestsuite-web-iesmanacor .
 RUN mvn clean package -f pom.xml
 ENTRYPOINT ["mvn","spring-boot:run","-f","pom.xml"]
 
@@ -15,7 +15,7 @@ COPY /api/gestsuite-common/ /external/
 RUN mvn clean compile install -f /external/pom.xml
 
 
-COPY /api/gestsuite-webiesmanacor .
+COPY /api/gestsuite-web-iesmanacor .
 RUN mvn clean package -f pom.xml
 
 FROM amazoncorretto:17-alpine-jdk as production-stage-webiesmanacor

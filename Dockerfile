@@ -19,6 +19,6 @@ COPY /api/gestsuite-web-iesmanacor .
 RUN mvn clean package -f pom.xml
 
 FROM amazoncorretto:17-alpine-jdk as production-stage-webiesmanacor
-COPY --from=build-stage-webiesmanacor /resources/target/webiesmanacor-0.0.1-SNAPSHOT.jar webiesmanacor.jar
+COPY --from=build-stage-webiesmanacor /resources/target/web-iesmanacor-0.0.1-SNAPSHOT.jar webiesmanacor.jar
 COPY /config/iesmanacor-e0d4f26d9c2c.json /resources/iesmanacor-e0d4f26d9c2c.json
 ENTRYPOINT ["java","-jar","/webiesmanacor.jar"]

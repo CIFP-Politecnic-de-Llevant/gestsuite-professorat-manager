@@ -347,7 +347,7 @@ public class DepartamentController {
         script.append("}");
 
         script.append(".professor{");
-        script.append("     background: #E7E7E7;");
+        script.append("     background: #F6F6F6;");
         script.append("     padding: 10px;");
         script.append("     width: 270px;");
         script.append("     display: flex;");

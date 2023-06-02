@@ -395,7 +395,7 @@ public class DepartamentController {
 
         script.append(".professor h3{");
         script.append("     font-family: \"Roboto\", Sans-serif;");
-        script.append("     font-size: 1.2em;");
+        script.append("     font-size: 1em;");
         script.append("     font-weight: 500;");
         script.append("     text-align: center;");
         script.append("     margin: 10px 0;");

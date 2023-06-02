@@ -339,6 +339,10 @@ public class DepartamentController {
 
         script.append("@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Poppins:wght@500&family=Roboto:wght@500&display=swap');");
 
+        script.append("#professorat{");
+        script.append("    max-width: 1160px;");
+        script.append("}");
+
         script.append(".professors{");
         script.append("    display: flex !important;");
         script.append("    flex-wrap: wrap !important;");

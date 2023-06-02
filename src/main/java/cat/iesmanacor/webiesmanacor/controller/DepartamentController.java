@@ -364,7 +364,7 @@ public class DepartamentController {
         script.append("     display: flex;");
         script.append("     flex-flow: column;");
         script.append("     align-items: center;");
-        script.append("     justify-content: space-between;");
+        script.append("     justify-content: flex-start;");
         script.append("     height: 100%;");
         script.append("}");
 
@@ -502,6 +502,9 @@ public class DepartamentController {
                     //Horari tutoria
                     script.append("<p class=\"horaritutoria\">").append(usuari.getHorariAtencioPares()).append("</p>");
 
+
+                    script.append("</div>"); //class informació
+
                     if(usuariSubstitut==null) {
                         if (usuari.getProfessor().getGsuiteEmail() != null) {
                             script.append("<p class=\"email\"><a href=\"mailto:").append(usuari.getProfessor().getGsuiteEmail()).append("\">");
@@ -515,8 +518,6 @@ public class DepartamentController {
                             script.append("</a></p>");
                         }
                     }
-
-                    script.append("</div>"); //class informació
 
                     script.append("</div>"); //class professor
                 }

@@ -520,7 +520,7 @@ public class DepartamentController {
         }
         script.append("</div>"); //professors
 
-        String selector = ".e-con.e-flex>.e-con-inner";
+        String selector = "#professorat";
 
         String result = " document.querySelector(\""+selector+"\").innerHTML=''; ";
         result += " var resultScript = document.querySelector(\""+selector+"\"); ";

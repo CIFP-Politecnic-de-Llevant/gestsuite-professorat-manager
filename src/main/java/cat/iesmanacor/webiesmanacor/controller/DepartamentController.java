@@ -244,7 +244,7 @@ public class DepartamentController {
             for (CoreUsuariDto usuariCore : usuaris) {
                 UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
                 boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
-                if (usuari != null && !isSubstitut) {
+                if (usuari != null && !isSubstitut && usuari.getVisible()) {
 
                     UsuariDto usuariSubstitut = null;
                     if(usuari.getSubstitut() != null){
@@ -448,7 +448,7 @@ public class DepartamentController {
             for (CoreUsuariDto usuariCore : usuaris) {
                 UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
                 boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
-                if (usuari != null && !isSubstitut) {
+                if (usuari != null && !isSubstitut && usuari.getVisible()) {
 
                     UsuariDto usuariSubstitut = null;
                     if(usuari.getSubstitut() != null){

@@ -14,10 +14,11 @@
 	<name>web-iesmanacor</name>
 	<description>web-iesmanacor</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<spring-cloud.version>2021.0.4</spring-cloud.version>
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

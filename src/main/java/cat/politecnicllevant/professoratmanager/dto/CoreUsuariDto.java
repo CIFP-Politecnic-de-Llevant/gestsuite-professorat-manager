@@ -1,4 +1,4 @@
-package cat.politecnicllevant.webiesmanacor.dto;
+package cat.politecnicllevant.professoratmanager.dto;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package cat.politecnicllevant.webiesmanacor.model;
+package cat.politecnicllevant.professoratmanager.model;
 
 import lombok.Data;
 

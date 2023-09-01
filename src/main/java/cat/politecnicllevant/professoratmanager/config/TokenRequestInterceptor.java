@@ -1,4 +1,4 @@
-package cat.politecnicllevant.webiesmanacor.config;
+package cat.politecnicllevant.professoratmanager.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

@@ -1,6 +1,6 @@
-package cat.politecnicllevant.webiesmanacor.repository;
+package cat.politecnicllevant.professoratmanager.repository;
 
-import cat.politecnicllevant.webiesmanacor.model.Usuari;
+import cat.politecnicllevant.professoratmanager.model.Usuari;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

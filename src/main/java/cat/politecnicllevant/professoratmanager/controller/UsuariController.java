@@ -1,12 +1,11 @@
-package cat.politecnicllevant.webiesmanacor.controller;
+package cat.politecnicllevant.professoratmanager.controller;
 
 import cat.politecnicllevant.common.model.Notificacio;
 import cat.politecnicllevant.common.model.NotificacioTipus;
 import cat.politecnicllevant.common.service.UtilService;
-import cat.iesmanacor.webiesmanacor.dto.*;
-import cat.politecnicllevant.webiesmanacor.dto.*;
-import cat.politecnicllevant.webiesmanacor.restclient.CoreRestClient;
-import cat.politecnicllevant.webiesmanacor.service.UsuariService;
+import cat.politecnicllevant.professoratmanager.dto.*;
+import cat.politecnicllevant.professoratmanager.restclient.CoreRestClient;
+import cat.politecnicllevant.professoratmanager.service.UsuariService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;

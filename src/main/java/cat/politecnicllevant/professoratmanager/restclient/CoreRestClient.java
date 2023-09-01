@@ -1,10 +1,10 @@
-package cat.politecnicllevant.webiesmanacor.restclient;
+package cat.politecnicllevant.professoratmanager.restclient;
 
-import cat.politecnicllevant.webiesmanacor.dto.CoreUsuariDto;
-import cat.politecnicllevant.webiesmanacor.dto.DepartamentDto;
-import cat.politecnicllevant.webiesmanacor.dto.GrupDto;
-import cat.politecnicllevant.webiesmanacor.dto.CursDto;
-import cat.politecnicllevant.webiesmanacor.dto.SessioDto;
+import cat.politecnicllevant.professoratmanager.dto.CoreUsuariDto;
+import cat.politecnicllevant.professoratmanager.dto.DepartamentDto;
+import cat.politecnicllevant.professoratmanager.dto.GrupDto;
+import cat.politecnicllevant.professoratmanager.dto.CursDto;
+import cat.politecnicllevant.professoratmanager.dto.SessioDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

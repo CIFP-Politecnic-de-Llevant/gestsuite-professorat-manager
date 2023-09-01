@@ -1,11 +1,11 @@
-package cat.politecnicllevant.webiesmanacor.service;
+package cat.politecnicllevant.professoratmanager.service;
 
-import cat.politecnicllevant.webiesmanacor.dto.CoreUsuariDto;
-import cat.politecnicllevant.webiesmanacor.dto.DepartamentDto;
-import cat.politecnicllevant.webiesmanacor.dto.UsuariDto;
-import cat.politecnicllevant.webiesmanacor.model.Usuari;
-import cat.politecnicllevant.webiesmanacor.repository.UsuariRepository;
-import cat.politecnicllevant.webiesmanacor.restclient.CoreRestClient;
+import cat.politecnicllevant.professoratmanager.dto.CoreUsuariDto;
+import cat.politecnicllevant.professoratmanager.dto.DepartamentDto;
+import cat.politecnicllevant.professoratmanager.dto.UsuariDto;
+import cat.politecnicllevant.professoratmanager.model.Usuari;
+import cat.politecnicllevant.professoratmanager.repository.UsuariRepository;
+import cat.politecnicllevant.professoratmanager.restclient.CoreRestClient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -8,7 +8,7 @@
 		<version>2.7.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>cat.iesmanacor</groupId>
+	<groupId>cat.politecnicllevant</groupId>
 	<artifactId>web-iesmanacor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>web-iesmanacor</name>

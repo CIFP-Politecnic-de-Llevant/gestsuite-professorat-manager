@@ -1,4 +1,4 @@
-package cat.iesmanacor.webiesmanacor;
+package cat.politecnicllevant.webiesmanacor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

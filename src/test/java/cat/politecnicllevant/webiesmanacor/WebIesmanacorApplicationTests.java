@@ -1,4 +1,4 @@
-package cat.iesmanacor.webiesmanacor;
+package cat.politecnicllevant.webiesmanacor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

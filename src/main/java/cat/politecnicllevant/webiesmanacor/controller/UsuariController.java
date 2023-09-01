@@ -1,11 +1,12 @@
-package cat.iesmanacor.webiesmanacor.controller;
+package cat.politecnicllevant.webiesmanacor.controller;
 
 import cat.politecnicllevant.common.model.Notificacio;
 import cat.politecnicllevant.common.model.NotificacioTipus;
 import cat.politecnicllevant.common.service.UtilService;
 import cat.iesmanacor.webiesmanacor.dto.*;
-import cat.iesmanacor.webiesmanacor.restclient.CoreRestClient;
-import cat.iesmanacor.webiesmanacor.service.UsuariService;
+import cat.politecnicllevant.webiesmanacor.dto.*;
+import cat.politecnicllevant.webiesmanacor.restclient.CoreRestClient;
+import cat.politecnicllevant.webiesmanacor.service.UsuariService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,7 @@
-package cat.iesmanacor.webiesmanacor.dto;
+package cat.politecnicllevant.webiesmanacor.dto;
 
 import lombok.Data;
 
-import java.util.Comparator;
 import java.util.Set;
 
 //@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

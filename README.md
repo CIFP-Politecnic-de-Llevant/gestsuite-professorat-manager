@@ -1,1 +1,1 @@
-# gestsuite-web-iesmanacor
+# gestsuite-professorat-manager

@@ -1,7 +1,7 @@
 package cat.iesmanacor.webiesmanacor.controller;
 
-import cat.iesmanacor.common.model.Notificacio;
-import cat.iesmanacor.common.model.NotificacioTipus;
+import cat.politecnicllevant.common.model.Notificacio;
+import cat.politecnicllevant.common.model.NotificacioTipus;
 import cat.iesmanacor.webiesmanacor.dto.CoreUsuariDto;
 import cat.iesmanacor.webiesmanacor.dto.UsuariDto;
 import cat.iesmanacor.webiesmanacor.restclient.CoreRestClient;

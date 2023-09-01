@@ -1,8 +1,8 @@
 package cat.iesmanacor.webiesmanacor.controller;
 
-import cat.iesmanacor.common.model.Notificacio;
-import cat.iesmanacor.common.model.NotificacioTipus;
-import cat.iesmanacor.common.service.UtilService;
+import cat.politecnicllevant.common.model.Notificacio;
+import cat.politecnicllevant.common.model.NotificacioTipus;
+import cat.politecnicllevant.common.service.UtilService;
 import cat.iesmanacor.webiesmanacor.dto.*;
 import cat.iesmanacor.webiesmanacor.restclient.CoreRestClient;
 import cat.iesmanacor.webiesmanacor.service.UsuariService;
@@ -13,15 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

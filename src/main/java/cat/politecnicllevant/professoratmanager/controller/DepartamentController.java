@@ -14,13 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,12 +48,12 @@ public class DepartamentController {
         Long identificador = jsonObject.get("id").getAsLong();
 
         String script = "";
-        if(scriptCentre.equals("iesmanacor")) {
+        if (scriptCentre.equals("iesmanacor")) {
             script = this.getScriptByDepartamentIDIESManacor(identificador);
-        } else if(scriptCentre.equals("politecnicllevant")){
+        } else if (scriptCentre.equals("politecnicllevant")) {
             script = this.getScriptByDepartamentIDCIFPPolitecnicLlevant(identificador);
         }
-        this.generateScript(script,identificador);
+        this.generateScript(script, identificador);
 
         Notificacio notificacio = new Notificacio();
         notificacio.setNotifyMessage("Script generat correctament");
@@ -77,7 +77,7 @@ public class DepartamentController {
 
     @GetMapping(value = "/public/loadDepartament/{id}/script.js", produces = "text/javascript")
     public String loadScript(@PathVariable("id") Long identificador) throws Exception {
-        final String FILE_NAME = "/tmp/departament_"+identificador+".txt";
+        final String FILE_NAME = "/tmp/departament_" + identificador + ".txt";
 
         Path path = Paths.get(FILE_NAME);
 
@@ -88,21 +88,21 @@ public class DepartamentController {
             content = Files.readString(path);
 
         } else {
-            if(scriptCentre.equals("iesmanacor")) {
+            if (scriptCentre.equals("iesmanacor")) {
                 content = this.getScriptByDepartamentIDIESManacor(identificador);
-            } else if(scriptCentre.equals("politecnicllevant")){
+            } else if (scriptCentre.equals("politecnicllevant")) {
                 content = this.getScriptByDepartamentIDCIFPPolitecnicLlevant(identificador);
             } else {
                 content = "";
             }
-            this.generateScript(content,identificador);
+            this.generateScript(content, identificador);
         }
 
         return content;
     }
 
     private void generateScript(String script, Long identificador) throws Exception {
-        final String FILE_NAME = "/tmp/departament_"+identificador+".txt";
+        final String FILE_NAME = "/tmp/departament_" + identificador + ".txt";
 
         //Backup
         Path path = Paths.get(FILE_NAME);
@@ -121,7 +121,7 @@ public class DepartamentController {
     }
 
     private void recoverBackup(Long identificador) throws IOException {
-        final String FILE_NAME = "/tmp/departament_"+identificador+".txt";
+        final String FILE_NAME = "/tmp/departament_" + identificador + ".txt";
 
         //Backup
         Path path = Paths.get(FILE_NAME);
@@ -243,78 +243,80 @@ public class DepartamentController {
 
             for (CoreUsuariDto usuariCore : usuaris) {
                 UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
-                boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
-                if (usuari != null && !isSubstitut && usuari.getVisible()) {
+                if (usuari != null) {
+                    boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
+                    if (usuari != null && !isSubstitut && usuari.getVisible()) {
 
-                    UsuariDto usuariSubstitut = null;
-                    if(usuari.getSubstitut() != null){
-                        usuariSubstitut = usuariService.findById(usuari.getSubstitut().getIdUsuari());
-                    }
+                        UsuariDto usuariSubstitut = null;
+                        if (usuari.getSubstitut() != null) {
+                            usuariSubstitut = usuariService.findById(usuari.getSubstitut().getIdUsuari());
+                        }
 
-                    script.append("<div class=\"professor\">");
+                        script.append("<div class=\"professor\">");
 
-                    //Foto
-                    if (usuari.getFoto() != null) {
-                        if(usuariSubstitut==null) {
-                            script.append("<div class=\"foto\">");
-                            script.append("<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
-                            script.append("</div>");
+                        //Foto
+                        if (usuari.getFoto() != null) {
+                            if (usuariSubstitut == null) {
+                                script.append("<div class=\"foto\">");
+                                script.append("<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
+                                script.append("</div>");
+                            } else {
+                                script.append("<div class=\"foto\">");
+                                script.append("<figure class=\"foto-substitut\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuariSubstitut.getFoto()).append("\" alt=\"\"></figure>");
+                                script.append("<figure class=\"foto-titular\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
+                                script.append("</div>");
+                            }
+                        }
+
+                        script.append("<div class=\"informacio\">");
+
+                        //Nom i cognoms
+                        if (usuariSubstitut == null) {
+                            script.append("<h3>").append(usuari.getNom()).append("</h3>");
                         } else {
-                            script.append("<div class=\"foto\">");
-                            script.append("<figure class=\"foto-substitut\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuariSubstitut.getFoto()).append("\" alt=\"\"></figure>");
-                            script.append("<figure class=\"foto-titular\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
-                            script.append("</div>");
+                            script.append("<h3>").append(usuariSubstitut.getNom()).append("</h3>");
+                            script.append("<p class=\"nomsubstitut\">(Substitueix a ").append(usuari.getNom()).append(")</p>");
                         }
-                    }
-
-                    script.append("<div class=\"informacio\">");
-
-                    //Nom i cognoms
-                    if(usuariSubstitut==null) {
-                        script.append("<h3>").append(usuari.getNom()).append("</h3>");
-                    } else {
-                        script.append("<h3>").append(usuariSubstitut.getNom()).append("</h3>");
-                        script.append("<p class=\"nomsubstitut\">(Substitueix a ").append(usuari.getNom()).append(")</p>");
-                    }
-                    //Càrrecs
-                    script.append("<div class=\"carrecs\">");
-                    if (usuari.getTutoria() != null && !usuari.getTutoria().isEmpty()) {
-                        script.append("Tutoria ").append(usuari.getTutoria());
-                    }
-                    if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
+                        //Càrrecs
+                        script.append("<div class=\"carrecs\">");
                         if (usuari.getTutoria() != null && !usuari.getTutoria().isEmpty()) {
-                            script.append("<br>");
+                            script.append("Tutoria ").append(usuari.getTutoria());
                         }
-                        script.append(usuari.getCarrec1());
-                    }
-                    if (usuari.getCarrec2() != null && !usuari.getCarrec2().isEmpty()) {
-                        script.append("<br>").append(usuari.getCarrec2());
-                    }
-                    if (usuari.getCarrec3() != null && !usuari.getCarrec3().isEmpty()) {
-                        script.append("<br>").append(usuari.getCarrec3());
-                    }
-                    script.append("</div>");
-
-                    //Horari tutoria
-                    script.append("<p class=\"horaritutoria\">").append(usuari.getHorariAtencioPares()).append("</p>");
-
-                    if(usuariSubstitut==null) {
-                        if (usuari.getProfessor().getGsuiteEmail() != null) {
-                            script.append("<p class=\"email\"><a href=\"mailto:").append(usuari.getProfessor().getGsuiteEmail()).append("\">");
-                            script.append(usuari.getProfessor().getGsuiteEmail());
-                            script.append("</a></p>");
+                        if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
+                            if (usuari.getTutoria() != null && !usuari.getTutoria().isEmpty()) {
+                                script.append("<br>");
+                            }
+                            script.append(usuari.getCarrec1());
                         }
-                    } else {
-                        if (usuariSubstitut.getProfessor().getGsuiteEmail() != null) {
-                            script.append("<p class=\"email\"><a href=\"mailto:").append(usuariSubstitut.getProfessor().getGsuiteEmail()).append("\">");
-                            script.append(usuariSubstitut.getProfessor().getGsuiteEmail());
-                            script.append("</a></p>");
+                        if (usuari.getCarrec2() != null && !usuari.getCarrec2().isEmpty()) {
+                            script.append("<br>").append(usuari.getCarrec2());
                         }
+                        if (usuari.getCarrec3() != null && !usuari.getCarrec3().isEmpty()) {
+                            script.append("<br>").append(usuari.getCarrec3());
+                        }
+                        script.append("</div>");
+
+                        //Horari tutoria
+                        script.append("<p class=\"horaritutoria\">").append(usuari.getHorariAtencioPares()).append("</p>");
+
+                        if (usuariSubstitut == null) {
+                            if (usuari.getProfessor().getGsuiteEmail() != null) {
+                                script.append("<p class=\"email\"><a href=\"mailto:").append(usuari.getProfessor().getGsuiteEmail()).append("\">");
+                                script.append(usuari.getProfessor().getGsuiteEmail());
+                                script.append("</a></p>");
+                            }
+                        } else {
+                            if (usuariSubstitut.getProfessor().getGsuiteEmail() != null) {
+                                script.append("<p class=\"email\"><a href=\"mailto:").append(usuariSubstitut.getProfessor().getGsuiteEmail()).append("\">");
+                                script.append(usuariSubstitut.getProfessor().getGsuiteEmail());
+                                script.append("</a></p>");
+                            }
+                        }
+
+                        script.append("</div>"); //class informació
+
+                        script.append("</div>"); //class professor
                     }
-
-                    script.append("</div>"); //class informació
-
-                    script.append("</div>"); //class professor
                 }
             }
         }
@@ -322,8 +324,8 @@ public class DepartamentController {
 
         String selector = "section .elementor-container .elementor-column .elementor-element.elementor-widget.elementor-widget-text-editor";
 
-        String result = " document.querySelector(\""+selector+"\").innerHTML=''; ";
-        result += " var resultScript = document.querySelector(\""+selector+"\"); ";
+        String result = " document.querySelector(\"" + selector + "\").innerHTML=''; ";
+        result += " var resultScript = document.querySelector(\"" + selector + "\"); ";
         result += " if(resultScript){ resultScript.innerHTML = `" + script + "`; } ";
 
         return result;
@@ -451,7 +453,7 @@ public class DepartamentController {
                 if (usuari != null && !isSubstitut && usuari.getVisible()) {
 
                     UsuariDto usuariSubstitut = null;
-                    if(usuari.getSubstitut() != null){
+                    if (usuari.getSubstitut() != null) {
                         usuariSubstitut = usuariService.findById(usuari.getSubstitut().getIdUsuari());
                     }
 
@@ -459,7 +461,7 @@ public class DepartamentController {
 
                     //Foto
                     if (usuari.getFoto() != null) {
-                        if(usuariSubstitut==null) {
+                        if (usuariSubstitut == null) {
                             script.append("<div class=\"foto\">");
                             script.append("<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
                             script.append("</div>");
@@ -474,7 +476,7 @@ public class DepartamentController {
                     script.append("<div class=\"informacio\">");
 
                     //Nom i cognoms
-                    if(usuariSubstitut==null) {
+                    if (usuariSubstitut == null) {
                         script.append("<h3>").append(usuari.getNom()).append("</h3>");
                     } else {
                         script.append("<h3>").append(usuariSubstitut.getNom()).append("</h3>");
@@ -505,7 +507,7 @@ public class DepartamentController {
 
                     script.append("</div>"); //class informació
 
-                    if(usuariSubstitut==null) {
+                    if (usuariSubstitut == null) {
                         if (usuari.getProfessor().getGsuiteEmail() != null) {
                             script.append("<p class=\"email\"><a href=\"mailto:").append(usuari.getProfessor().getGsuiteEmail()).append("\">");
                             script.append(usuari.getProfessor().getGsuiteEmail());
@@ -527,8 +529,8 @@ public class DepartamentController {
 
         String selector = "#professorat";
 
-        String result = " document.querySelector(\""+selector+"\").innerHTML=''; ";
-        result += " var resultScript = document.querySelector(\""+selector+"\"); ";
+        String result = " document.querySelector(\"" + selector + "\").innerHTML=''; ";
+        result += " var resultScript = document.querySelector(\"" + selector + "\"); ";
         result += " if(resultScript){ resultScript.innerHTML = `" + script + "`; } ";
 
         return result;

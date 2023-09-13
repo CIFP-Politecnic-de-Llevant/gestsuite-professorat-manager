@@ -463,12 +463,12 @@ public class DepartamentController {
                     if (usuari.getFoto() != null) {
                         if (usuariSubstitut == null) {
                             script.append("<div class=\"foto\">");
-                            script.append("<figure><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
+                            script.append("<figure><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
                             script.append("</div>");
                         } else {
                             script.append("<div class=\"foto\">");
-                            script.append("<figure class=\"foto-substitut\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuariSubstitut.getFoto()).append("\" alt=\"\"></figure>");
-                            script.append("<figure class=\"foto-titular\"><img src=\"https://www.iesmanacor.cat/wp-content/uploads/FOTOS/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
+                            script.append("<figure class=\"foto-substitut\"><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuariSubstitut.getFoto()).append("\" alt=\"\"></figure>");
+                            script.append("<figure class=\"foto-titular\"><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
                             script.append("</div>");
                         }
                     }

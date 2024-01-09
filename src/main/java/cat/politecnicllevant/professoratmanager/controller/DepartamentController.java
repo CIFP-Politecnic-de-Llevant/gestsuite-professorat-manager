@@ -237,7 +237,7 @@ public class DepartamentController {
         script.append("</style>");
 
         script.append("<div class=\"professors elementor-container elementor-column-gap-default\">");
-        if (usuaris != null && usuaris.size() > 0) {
+        if (!usuaris.isEmpty()) {
 
             Collections.sort(usuaris);
 
@@ -245,7 +245,7 @@ public class DepartamentController {
                 UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
                 if (usuari != null) {
                     boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
-                    if (usuari != null && !isSubstitut && usuari.getVisible()) {
+                    if (!isSubstitut && usuari.getVisible()) {
 
                         UsuariDto usuariSubstitut = null;
                         if (usuari.getSubstitut() != null) {

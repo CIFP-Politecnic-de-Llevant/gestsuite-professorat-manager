@@ -444,84 +444,88 @@ public class DepartamentController {
 
         script.append("<div class=\"professors elementor-container elementor-column-gap-default\">");
         if (usuaris != null && usuaris.size() > 0) {
-
             Collections.sort(usuaris);
 
             for (CoreUsuariDto usuariCore : usuaris) {
                 UsuariDto usuari = usuariService.findByCoreIdUsuari(usuariCore.getIdusuari());
-                boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
-                if (usuari != null && !isSubstitut && usuari.getVisible()) {
 
-                    UsuariDto usuariSubstitut = null;
-                    if (usuari.getSubstitut() != null) {
-                        usuariSubstitut = usuariService.findById(usuari.getSubstitut().getIdUsuari());
-                    }
+                if (usuari != null) {
 
-                    script.append("<div class=\"professor\">");
+                    boolean isSubstitut = usuariService.usuariIsSubstitut(usuari.getIdUsuari());
 
-                    //Foto
-                    if (usuari.getFoto() != null) {
+                    if (!isSubstitut && usuari.getVisible()) {
+
+                        UsuariDto usuariSubstitut = null;
+                        if (usuari.getSubstitut() != null) {
+                            usuariSubstitut = usuariService.findById(usuari.getSubstitut().getIdUsuari());
+                        }
+
+                        script.append("<div class=\"professor\">");
+
+                        //Foto
+                        if (usuari.getFoto() != null) {
+                            if (usuariSubstitut == null) {
+                                script.append("<div class=\"foto\">");
+                                script.append("<figure><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
+                                script.append("</div>");
+                            } else {
+                                script.append("<div class=\"foto\">");
+                                script.append("<figure class=\"foto-substitut\"><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuariSubstitut.getFoto()).append("\" alt=\"\"></figure>");
+                                script.append("<figure class=\"foto-titular\"><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
+                                script.append("</div>");
+                            }
+                        }
+
+                        script.append("<div class=\"informacio\">");
+
+                        //Nom i cognoms
                         if (usuariSubstitut == null) {
-                            script.append("<div class=\"foto\">");
-                            script.append("<figure><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
-                            script.append("</div>");
+                            script.append("<h3>").append(usuari.getNom()).append("</h3>");
                         } else {
-                            script.append("<div class=\"foto\">");
-                            script.append("<figure class=\"foto-substitut\"><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuariSubstitut.getFoto()).append("\" alt=\"\"></figure>");
-                            script.append("<figure class=\"foto-titular\"><img src=\"https://www.politecnicllevant.cat/wp-content/uploads/fotosp/").append(usuari.getFoto()).append("\" alt=\"\"></figure>");
-                            script.append("</div>");
+                            script.append("<h3>").append(usuariSubstitut.getNom()).append("</h3>");
+                            script.append("<p class=\"nomsubstitut\">(Substitueix a ").append(usuari.getNom()).append(")</p>");
                         }
-                    }
-
-                    script.append("<div class=\"informacio\">");
-
-                    //Nom i cognoms
-                    if (usuariSubstitut == null) {
-                        script.append("<h3>").append(usuari.getNom()).append("</h3>");
-                    } else {
-                        script.append("<h3>").append(usuariSubstitut.getNom()).append("</h3>");
-                        script.append("<p class=\"nomsubstitut\">(Substitueix a ").append(usuari.getNom()).append(")</p>");
-                    }
-                    //Càrrecs
-                    script.append("<div class=\"carrecs\">");
-                    if (usuari.getTutoria() != null && !usuari.getTutoria().isEmpty()) {
-                        script.append("Tutoria ").append(usuari.getTutoria());
-                    }
-                    if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
+                        //Càrrecs
+                        script.append("<div class=\"carrecs\">");
                         if (usuari.getTutoria() != null && !usuari.getTutoria().isEmpty()) {
-                            script.append("<br>");
+                            script.append("Tutoria ").append(usuari.getTutoria());
                         }
-                        script.append(usuari.getCarrec1());
-                    }
-                    if (usuari.getCarrec2() != null && !usuari.getCarrec2().isEmpty()) {
-                        script.append("<br>").append(usuari.getCarrec2());
-                    }
-                    if (usuari.getCarrec3() != null && !usuari.getCarrec3().isEmpty()) {
-                        script.append("<br>").append(usuari.getCarrec3());
-                    }
-                    script.append("</div>");
-
-                    //Horari tutoria
-                    script.append("<p class=\"horaritutoria\">").append(usuari.getHorariAtencioPares()).append("</p>");
-
-
-                    script.append("</div>"); //class informació
-
-                    if (usuariSubstitut == null) {
-                        if (usuari.getProfessor().getGsuiteEmail() != null) {
-                            script.append("<p class=\"email\"><a href=\"mailto:").append(usuari.getProfessor().getGsuiteEmail()).append("\">");
-                            script.append(usuari.getProfessor().getGsuiteEmail());
-                            script.append("</a></p>");
+                        if (usuari.getCarrec1() != null && !usuari.getCarrec1().isEmpty()) {
+                            if (usuari.getTutoria() != null && !usuari.getTutoria().isEmpty()) {
+                                script.append("<br>");
+                            }
+                            script.append(usuari.getCarrec1());
                         }
-                    } else {
-                        if (usuariSubstitut.getProfessor().getGsuiteEmail() != null) {
-                            script.append("<p class=\"email\"><a href=\"mailto:").append(usuariSubstitut.getProfessor().getGsuiteEmail()).append("\">");
-                            script.append(usuariSubstitut.getProfessor().getGsuiteEmail());
-                            script.append("</a></p>");
+                        if (usuari.getCarrec2() != null && !usuari.getCarrec2().isEmpty()) {
+                            script.append("<br>").append(usuari.getCarrec2());
                         }
-                    }
+                        if (usuari.getCarrec3() != null && !usuari.getCarrec3().isEmpty()) {
+                            script.append("<br>").append(usuari.getCarrec3());
+                        }
+                        script.append("</div>");
 
-                    script.append("</div>"); //class professor
+                        //Horari tutoria
+                        script.append("<p class=\"horaritutoria\">").append(usuari.getHorariAtencioPares()).append("</p>");
+
+
+                        script.append("</div>"); //class informació
+
+                        if (usuariSubstitut == null) {
+                            if (usuari.getProfessor().getGsuiteEmail() != null) {
+                                script.append("<p class=\"email\"><a href=\"mailto:").append(usuari.getProfessor().getGsuiteEmail()).append("\">");
+                                script.append(usuari.getProfessor().getGsuiteEmail());
+                                script.append("</a></p>");
+                            }
+                        } else {
+                            if (usuariSubstitut.getProfessor().getGsuiteEmail() != null) {
+                                script.append("<p class=\"email\"><a href=\"mailto:").append(usuariSubstitut.getProfessor().getGsuiteEmail()).append("\">");
+                                script.append(usuariSubstitut.getProfessor().getGsuiteEmail());
+                                script.append("</a></p>");
+                            }
+                        }
+
+                        script.append("</div>"); //class professor
+                    }
                 }
             }
         }
